@@ -1,0 +1,310 @@
+\section{Modello di Specifica}
+In questo modello vengono definite le variabili e le equazioni necessarie al
+calcolo delle metriche, inoltre viene descritta la logica con cui il sistema
+evolve a seguito degli eventi che si verificano ed i vincoli a cui esso deve
+sottostare.
+%
+%
+\subsection{Metriche}
+Di principale interesse sono le variabili che compongono lo stato del sistema,
+ovvero quelle che lo caratterizzano completamente, esse tengonono conto del
+numero di job in servizio suddivisi per classe e per nodo di esecuzione ad ogni
+istante di tempo e sono indicate nella tabella~\ref{state}.
+%
+\begin{table}[!h]
+\begin{tabular}{c|l}
+{$n_1^{clet}(t)$}  & numero di job di classe 1 nel cloudlet al tempo $t$\\
+{$n_2^{clet}(t)$}  & numero di job di classe 2 nel cloudlet al tempo $t$\\
+{$n_1^{cloud}(t)$} & numero di job di classe 1 nel cloud al tempo $t$\\
+{$n_2^{cloud}(t)$} & numero di job di classe 2 nel cloud al tempo $t$\\
+{$n_{setup}(t)$}   & numero di job in fase di setup al tempo $t$\\
+\end{tabular}
+\centering
+\caption{Variabili che compongono lo stato del sistema}
+\label{state}
+\end{table}
+%
+Le altre variabili utili al calcolo delle statistiche del sistema sono indicate
+nella tabella~\ref{vars} e riguardano i tempi di risposta ed i completamenti,
+sempre suddivise per classe e nodo di esecuzione.
+%
+\begin{table}[!h]
+\begin{tabular}{c|l}
+{$s_{1,i}^{clet}$}       & tempo di servizio dell’i-esimo job di classe 1 eseguito
+nel cloudlet \\[2pt]
+{$s_{2,i}^{clet}$}       & tempo di servizio dell’i-esimo job di classe 2 eseguito
+nel cloudlet \\[2pt]
+{$s_{1,i}^{cloud}$}      & tempo di servizio dell’i-esimo job di classe 1 eseguito
+nel cloud \\[2pt]
+{$s_2^{cloud,i}$}      & tempo di servizio dell’i-esimo job di classe 2 eseguito
+nel cloud \\[2pt]
+{$s_{intr,i}^{clet}$}  & tempo di servizio nel cloudlet dell’i-esimo job
+interrotto \\[2pt]
+{$s_{intr,i}^{cloud}$} & tempo di servizio nel cloud dell’i-esimo job interrotto
+\\[2pt]
+{$s_i^{setup}$}        & tempo di setup dell’i-esimo job interrotto \\[2pt]
+{$c_1^{clet}(t)$}      & numero di job di classe 1 completati nel cloudlet al
+tempo $t$ \\[2pt]
+{$c_2^{clet}(t)$}      & numero di job di classe 2 completati nel cloudlet al
+tempo $t$ \\[2pt] 
+{$c_1^{cloud}(t)$}     & numero di job di classe 1 completati nel cloud al tempo
+$t$ \\[2pt] 
+{$c_2^{cloud}(t)$}     & numero di job di classe 2 completati nel cloud al tempo
+$t$ \\[2pt]
+{$n_{intr}(t)$}        & numero di job interrotti al tempo $t$ \\
+\end{tabular}
+\centering
+\caption{Variabili tempi di servizio e completamenti}
+\label{vars}
+\end{table}
+%
+%
+\subsection{Vincoli}
+Una volta definito lo stato del sistema e le variabili che lo compongono è
+necessario definire anche come esse sono relazionate ed i vincoli a cui sono
+sottoposte.
+\begin{enumerate}
+\item Ad ogni istante di tempo $t$ devono valere le seguenti condizioni:
+\begin{eqnarray*}
+n_1^{clet}(t) + n_2^{clet}(t) & \leq N & \\
+n_1^{clet}(t) + n_2^{clet}(t) & \leq S & \qquad \textrm{se } n_2^{clet}(t) > 0
+\end{eqnarray*}
+\item Stato iniziale ($t=t_{start}$):
+\begin{eqnarray*}
+n_1^{clet}(t) = n_2^{clet}(t) = n_1^{cloud}(t) = n_2^{cloud}(t) = n_{setup}(t) &=& 0 
+\\
+c_1^{clet}(t) = c_2^{clet}(t) = c_1^{cloud}(t) = c_2^{cloud}(t) = c_{setup}(t) &=& 0
+\end{eqnarray*}
+\item Il primo evento deve essere un arrivo
+\item Dopo l’arrivo di un numero prefissato di job, i successivi arrivi vengono
+ignorati e non più processati.  Il processo di arrivo si interrompe quando viene
+processato un numero prefissato di job.  L’ultimo evento corrisponde al
+completamento dell’ultimo job.
+\item La selezione dei server all’interno di un nodo non è regolata da nessun algoritmo, poiché metriche relative ai singoli server non sono rilevanti ai fini dell’applicazione.
+\end{enumerate}
+%
+%
+\subsubsection{Tempi di risposta}
+Poiché i nodi del sistema sono sprovvisti di code, i tempi medi di risposta
+corrispono ai tempi medi di servizio, il calcolo viene quindi ridotto al
+rapporto tra la somma dei tempi di servizio sperimentati dai job in esame e la
+loro quantità, pertanto, per prima cosa è utile calcolare le somme dei
+tempi:
+\begin{displaymath}
+s_j^{clet} = \displaystyle \sum_{i=1}^{c_j^{clet}(t_{stop})} s_{j,i}^{clet} 
+\qquad\quad
+s_j^{cloud} = \displaystyle \sum_{i=1}^{c_j^{cloud}(t_{stop})} s_{j,i}^{cloud}
+\qquad \quad j = 1, 2 
+%s_{intr}^{clet} = \sum_{i=1}^{n_{intr}(t_{stop})} s_{intr,i}^{clet} &\quad&
+%s_{intr}^{cloud} = \sum_{i=1}^{n_{intr}(t_{stop})} s_{intr,i}^{cloud} \ \qquad
+%\ s_{setup} = \sum_{i=1}^{n_{intr}(t_{stop})} s_i^{setup} 
+\end{displaymath}
+\begin{displaymath}
+s_{intr} = \sum_{i=1}^{n_{intr}(t_{stop})} (s_{intr,i}^{clet} +
+s_{intr,i}^{cloud} + s_i^{setup})
+\end{displaymath}
+%
+Con queste formule si è ottenuta la somma dei tempi di servizio dei job
+suddivisi per classe e nodo di esecuzione, ed anche una relativa esclusivamente
+ai job interrotti in cui vengono sommati i tempi associati ai differenti nodi
+che percorrono (cloudlet, setup e cloud).
+
+È importante notare che il numero di job coinvolti è relativo ad un'istante di
+tempo corrispondente alla fine della finestra di osservazione $[t_{start};
+t_{stop}]$, ove si è posto per semplicità $t_{start}=0$.
+
+Adesso per il calcolo dei tempi di risposta rimane da fare il rapporto con i
+completamenti relativi ai nodi oppure alle classi di interesse.
+%
+{\setlength\arraycolsep{2pt}
+\begin{eqnarray}
+\label{eq:sjclet}
+E[T_j^{clet}] = E[S_j^{clet}] &=& \frac{s_j^{clet}}{c_j^{clet}(t_{stop})}
+\ \qquad \ \qquad \ j = 1, 2 
+\\[10pt]
+\label{eq:sjcloud}
+E[T_j^{cloud}] = E[S_j^{cloud}] &=&
+\frac{s_j^{cloud}}{c_j^{cloud}(t_{stop})}
+\qquad \ \qquad j = 1, 2 
+\\[10pt]
+\label{eq:sintr}
+E[T_{intr}] = E[S_{intr}] & = &
+\frac{s_{intr}}{n_{intr}(t_{stop})}
+\end{eqnarray}}
+{\setlength\arraycolsep{2pt}
+\begin{eqnarray}
+\label{eq:s1}
+E[T_1] = E[S_1] & = &
+\frac{s_1^{clet} + s_1^{cloud}}{c_1^{clet}(t_{stop}) + c_1^{cloud}(t_{stop})}
+\\[10pt]
+\label{eq:s2}
+E[T_2] = E[S_2] & = &
+\frac{s_1^{clet} + s_1^{cloud} + s_{intr}}{c_2^{clet}(t_{stop}) +
+c_2^{cloud}(t_{stop})} \\[10pt]
+\label{eq:s}
+E[T] = E[S] & = &
+\frac{s_1^{clet} + s_1^{cloud} + s_2^{clet} + s_2^{cloud} + s_{intr}}
+{c_1^{clet}(t_{stop}) + c_1^{cloud}(t_{stop}) + c_2^{clet}(t_{stop}) +
+c_2^{cloud}(t_{stop})} \end{eqnarray}}
+%
+Nella formula~\ref{eq:sintr} la somma dei tempi di servizio dei job interrotti
+viene divisa per il numero di interruzioni, che equivale al numero di
+completamenti.\\
+Nella formula~\ref{eq:s2}, in cui si calcola il tempo di risposta dei job di
+classe 2, vengono considerati i job della suddetta classe che passano
+esclusivamente per il cloudlet e per il cloud oltre ai job che subiscono le
+interruzioni, ma al denominatore non è presente il numero di job interrotti
+$n_{intr}$ perché è già incluso nella variabile $c_2^{cloud}$, essendo tali job
+completati nel cloud. Lo stesso discorso vale per la formula~\ref{eq:s}.
+%
+\subsubsection{Popolazione media}
+La popolazione media viene calcolata integrando le variabili in un'intervallo di 
+tempo corrispondente alla finestra di osservazione della simulazione e dividendo
+per la lunghezza di quest'ultima. Le metriche globali possono essere calcolate
+sommando le opportune metriche locali, poiché sono relative tutte allo stesso
+intervallo di tempo.
+{\setlength\arraycolsep{2pt}
+\begin{eqnarray}
+\label{eq:njclet}
+E[N_j^{clet}] & = &
+\frac{1}{t_{stop} - t_{start}} 
+\displaystyle \int_{t_{start}}^{t_{stop}} n_j^{clet}(t) \ dt
+\qquad j = 1, 2 
+\\[10pt]
+\label{eq:njcloud}
+E[N_j^{cloud}] & = &
+\frac{1}{t_{stop} - t_{start}} 
+\displaystyle \int_{t_{start}}^{t_{stop}} n_j^{cloud}(t) \ dt
+\qquad j = 1, 2 
+\\[10pt]
+\label{eq:nsetup}
+E[N_{setup}] & = &
+\frac{1}{t_{stop} - t_{start}} 
+\displaystyle \int_{t_{start}}^{t_{stop}} n_{setup}(t) \ dt
+\\[10pt]
+\label{eq:n1}
+E[N_{1}] & = & E[N_1^{clet}] + E[N_1^{cloud}]
+\\[10pt]
+\label{eq:n2}
+E[N_{2}] & = & E[N_2^{clet}] + E[N_2^{cloud}] + E[N_{setup}]
+\\[10pt]
+\label{eq:nclet}
+E[N_{clet}] & = & E[N_1^{clet}] + E[N_2^{clet}]
+\\[10pt]
+\label{eq:ncloud}
+E[N_{cloud}] & = & E[N_1^{cloud}] + E[N_2^{cloud}]
+\\[10pt]
+\label{eq:n}
+E[N] & = & E[N_{cloud}] + E[N_{clet}] + E[N_{setup}] 
+\\   & = & E[N_{1}] + E[N_{2}]
+\end{eqnarray}
+%
+Può essere utile ricordare che i job interrotti sono job di classe 2, pertanto
+nel calcolo della popolazione media dei job di questa classe nel sistema
+(equazione~\ref{eq:n2}), vanno considerati anche i job nel centro di setup.
+%
+\subsubsection{Throughput}
+Il throughput viene calcolato come il numero di job completati in un intervallo
+di tempo corrispondente alla finestra di osservazione della simulazione.\\
+Come per la popolazione media è sufficiente comporre i vari throughput locali
+per ottenere i throughput del sistema, dei singoli nodi oppure delle singole
+classi. Per esempio per il calcolo del throghput del sistema
+(equazione~\ref{eq:x}) si possono sommare i throughput delle classi oppure i
+throughput dei nodi.
+{\setlength\arraycolsep{2pt}
+\begin{eqnarray}
+X_j^{clet} & = & \frac{c_j^{clet}(t_{stop})}{t_{stop} - t_{start}} 
+\qquad j = 1, 2 
+\\[10pt]
+X_j^{cloud} & = & \frac{c_j^{cloud}(t_{stop})}{t_{stop} - t_{start}} 
+\qquad j = 1, 2 
+\\[10pt]
+X_j & = & X_j^{clet} + X_j^{cloud}
+\qquad j = 1, 2 
+\\[10pt]
+X_{clet} & = & X_1^{clet} + X_2^{clet}
+\\[10pt]
+X_{cloud} & = & X_1^{cloud} + X_2^{cloud}
+\\[10pt]
+X & = & X_1 + X_2 = X_{clet} + X_{cloud}
+\end{eqnarray}
+%%
+Il throughput del centro di setup non è particolarmente interessante perché è un
+nodo interno che non emette job all'esterno del sistema, funge solo da nodo
+intermedio tra cloudlet e cloud, in definitiva il suo throughput non
+contriubuisce a quello del sistema.
+%
+\subsection{Eventi}
+Lo stato del sistema evolve a seguito di eventi di vario tipo:
+\begin{enumerate}
+\item{Arrivo di un job di classe 1}
+\item{Arrivo di un job di classe 2}
+\item{Partenza di un job}
+\item{Setup}
+\end{enumerate}
+%
+L'algoritmo~\ref{alg} mostra tale evoluzione e le azioni che vengono intraprese
+in ogni possibile caso.\\
+In generale ad ogni arrivo viene stabilito il nodo di esecuzione in base allo
+stato del cloudlet e vengono aggiornate opportunamente le variabili, nel caso si
+debba sostituire un job di classe 2 con uno di classe 1 appena arrivato si
+provvede a rimuovere il relativo tempo di servizio $s_2^{clet,k}$
+precedentemente aggiunto e a registrare l'ammontare di tempo $s_{intr,k}$ per
+cui il job è stato in esecuzione prima che venisse interrotto.  Nel caso in cui
+si verifica un evento di partenza viene incrementato la corrispondente variabile
+di completamento e nel caso di un evento di setup, il relativo job
+precedentemente interrotto può essere finalmente eseguito sul cloud. Si noti
+anche che, nell'aggiornamento delle variabili temporali, l'istante $t'$ è
+corrisponde al momento in cui si verifica l'evento successivo a quello corrente
+che avviene all'istante $t$.
+%
+\begin{algorithm}[!h]
+\centering
+\caption{Logica del sistema in base agli eventi}
+\label{alg}
+\begin{algorithmic}
+\STATE \textbf{Arrivo di un job $i$ di classe 1}:
+\IF{$n_1^{clet}(t) = N$}
+\STATE \emph{esecuzione su cloud}
+\STATE $s_1^{cloud} \leftarrow s_1^{cloud} + s_{1,i}^{cloud}$
+\STATE $n_1^{cloud}(t') \leftarrow n_1^{cloud}(t) + 1$
+\ELSIF{$n_1^{clet}(t) + n_2^{clet}(t) < S$}
+\STATE \emph{esecuzione su cloudlet}
+\STATE $s_1^{clet} \leftarrow s_1^{clet} + s_{1,i}^{clet}$
+\STATE $n_1^{clet}(t') \leftarrow n_1^{clet}(t) + 1$
+\ELSIF{$n_2^{clet}(t) > 0$}
+\STATE \emph{interruzione e setup job $k$ di classe 2}
+\STATE \emph{esecuzione su cloudlet job $i$ di classe 1}
+\STATE $s_1^{clet} \leftarrow s_1^{clet} + s_{1,i}^{clet}$
+\STATE $s_2^{clet} \leftarrow s_2^{clet} - s_2^{clet,k}$
+\STATE $s_{intr} \leftarrow s_{intr} + s_{intr,k}$
+\STATE $s_{setup} \leftarrow s_{setup} + s_{setup,k}$
+\STATE $n_1^{clet}(t') \leftarrow n_1^{clet}(t) + 1$
+\STATE $n_2^{clet}(t') \leftarrow n_2^{clet}(t) - 1$
+\ELSE
+\STATE \emph{esecuzione su cloudlet}
+\STATE $s_1^{clet} \leftarrow s_1^{clet} + s_{1,i}^{clet}$
+\STATE $n_1^{clet}(t') \leftarrow n_1^{clet}(t) + 1$
+\ENDIF
+\STATE \textbf{Arrivo di un job $i$ di classe 2}:
+\IF{$n_1^{clet}(t) + n_2^{clet}(t) \geq S$}
+\STATE \emph{esecuzione su cloud}
+\STATE $s_2^{cloud} \leftarrow s_2^{cloud} + s_2^{cloud,i}$
+\STATE $n_2^{cloud}(t') \leftarrow n_2^{cloud}(t) + 1$
+\ELSE
+\STATE \emph{esecuzione su cloudlet}
+\STATE $s_2^{clet} \leftarrow s_2^{clet} + s_{2,i}^{clet}$
+\STATE $n_2^{clet}(t') \leftarrow n_2^{clet}(t) + 1$
+\ENDIF
+\STATE \textbf{Partenza di un job di classe $j$ dal cloudlet}:
+\STATE $c_j^{clet}(t') \leftarrow c_j^{clet}(t) + 1$
+\STATE \textbf{Partenza di un job di classe $j$ dal cloud}:
+\STATE $c_j^{cloud}(t') \leftarrow c_j^{cloud}(t) + 1$
+\STATE \textbf{Setup}:
+\STATE \emph{esecuzione su cloud}
+\STATE $s_2^{cloud} \leftarrow s_2^{cloud} + s_2^{cloud,i}$
+\STATE $n_2^{cloud}(t') \leftarrow n_2^{cloud}(t) + 1$
+\end{algorithmic}
+\end{algorithm}
+%
+%

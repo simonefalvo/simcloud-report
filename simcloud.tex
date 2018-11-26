@@ -7,20 +7,24 @@
 \usepackage{verbatim}
 \usepackage{titlepic}
 \usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage{algorithmic}
 %\usepackage{syntonly}
 %\syntaxonly
 
 \pagestyle{headings}
+\pdfminorversion=7      %pdf expected version 1.7
 
 %\includeonly{}
 
 
 \begin{document}
 
-\titlepic{\includegraphics[width=4cm]{images/unirm2.png}}
+\titlepic{\includegraphics[width=4cm]{figures/unirm2.png}}
 
 \title{
-  Progetto Performance Modeling Of Computer Systems And Networks
+  Performance Modeling Of Computer Systems And Networks\\[20pt]
+  Relazione Progetto 2017/18
 }
 \author{
   Simone Falvo\\
@@ -36,5 +40,11 @@
 
 \tableofcontents
 \newpage
+
+\input{sections/intro}
+\input{sections/conceptual}
+\input{sections/specification}
+\input{sections/analysis}
+\input{bibliography}
 
 \end{document}

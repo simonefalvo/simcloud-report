@@ -1,0 +1,31 @@
+\section{Introduzione}
+In questa relazione viene descritta una possibile soluzione ad un problema di
+edge computing in cui è richiesto di ottimizzare le prestazioni di un sistema di
+computazione cloud, calibrando i parametri di un algoritmo per l'inoltro di task
+utente verso un cloudlet ed un server remoto.
+
+Il sistema è in grado di eseguire task di due diverse classi in un cloudlet,
+situato ad un ``hop'' di distanza dall'utente, fintanto che le risorse lo
+consentono, altrimenti vengono inoltrati ed eseguiti in un server remoto.
+Inoltre, se la somma del numero di job presenti nel cloudlet è uguale al valore
+di soglia S e se vi è almeno un job di classe 2 in esecuzione, questo viene
+fatto migrare dal cloudlet al server remoto per far posto ad un task di classe 1
+in arrivo, che ha una maggiore ``priorità'' di esecuzione nel cloudlet.\\
+L'obbiettivo principale è quello di trovare il valore ottimale del parametro S
+affinché sia minimizzato il tempo di risposta medio.
+
+Il problema è stato affrontato definendo un modello a code per il sistema in
+modo tale da poter valutare, tramite l'analisi e la simulazione, i tempi di
+risposta e le altre metriche di performance come il throughput e la popolazione
+media.\\ 
+Il modello è stato validato analiticamente tramite lo studio dello stato del
+sistema a regime, calcolandone la distribuzione stazionaria e valutando le
+metriche di interesse in relazione ai possibili scenari.\\ 
+La simulazione è stata realizzata implementando in linguaggio C un programma
+basato su eventi ed i risultati sono stati raccolti ed elaborati utilizzato il
+metodo ``batch means'' per avere una stima del comportamento del sistema a
+regime.
+
+Nel seguito di questo documento verranno presentati i vari modelli di
+astrazione del sistema con i risultati che ne derivano, ed infine verrà fatto un
+cofronto in relazione ai possibili scenari analizzati.
