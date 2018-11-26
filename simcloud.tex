@@ -9,8 +9,18 @@
 \usepackage{graphicx}
 \usepackage{algorithm}
 \usepackage{algorithmic}
+\usepackage{listings}
 %\usepackage{syntonly}
 %\syntaxonly
+
+\lstset{
+	language=C,
+	frame=single,
+	basicstyle=\footnotesize,
+	tabsize=3,
+	inputencoding=utf8,
+	literate={==}{= =}{3}
+}
 
 \pagestyle{headings}
 \pdfminorversion=7      %pdf expected version 1.7
@@ -44,7 +54,9 @@
 \input{sections/intro}
 \input{sections/conceptual}
 \input{sections/specification}
+\input{sections/computational}
 \input{sections/analysis}
+\input{sections/conclusion}
 \input{bibliography}
 
 \end{document}

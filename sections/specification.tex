@@ -116,7 +116,7 @@ t_{stop}]$, ove si è posto per semplicità $t_{start}=0$.
 Adesso per il calcolo dei tempi di risposta rimane da fare il rapporto con i
 completamenti relativi ai nodi oppure alle classi di interesse.
 %
-{\setlength\arraycolsep{2pt}
+\setlength\arraycolsep{2pt}
 \begin{eqnarray}
 \label{eq:sjclet}
 E[T_j^{clet}] = E[S_j^{clet}] &=& \frac{s_j^{clet}}{c_j^{clet}(t_{stop})}
@@ -130,8 +130,7 @@ E[T_j^{cloud}] = E[S_j^{cloud}] &=&
 \label{eq:sintr}
 E[T_{intr}] = E[S_{intr}] & = &
 \frac{s_{intr}}{n_{intr}(t_{stop})}
-\end{eqnarray}}
-{\setlength\arraycolsep{2pt}
+\end{eqnarray}
 \begin{eqnarray}
 \label{eq:s1}
 E[T_1] = E[S_1] & = &
@@ -145,7 +144,8 @@ c_2^{cloud}(t_{stop})} \\[10pt]
 E[T] = E[S] & = &
 \frac{s_1^{clet} + s_1^{cloud} + s_2^{clet} + s_2^{cloud} + s_{intr}}
 {c_1^{clet}(t_{stop}) + c_1^{cloud}(t_{stop}) + c_2^{clet}(t_{stop}) +
-c_2^{cloud}(t_{stop})} \end{eqnarray}}
+c_2^{cloud}(t_{stop})} 
+\end{eqnarray}
 %
 Nella formula~\ref{eq:sintr} la somma dei tempi di servizio dei job interrotti
 viene divisa per il numero di interruzioni, che equivale al numero di
@@ -163,7 +163,6 @@ tempo corrispondente alla finestra di osservazione della simulazione e dividendo
 per la lunghezza di quest'ultima. Le metriche globali possono essere calcolate
 sommando le opportune metriche locali, poiché sono relative tutte allo stesso
 intervallo di tempo.
-{\setlength\arraycolsep{2pt}
 \begin{eqnarray}
 \label{eq:njclet}
 E[N_j^{clet}] & = &
@@ -211,21 +210,26 @@ per ottenere i throughput del sistema, dei singoli nodi oppure delle singole
 classi. Per esempio per il calcolo del throghput del sistema
 (equazione~\ref{eq:x}) si possono sommare i throughput delle classi oppure i
 throughput dei nodi.
-{\setlength\arraycolsep{2pt}
 \begin{eqnarray}
+\label{eq:xjclet}
 X_j^{clet} & = & \frac{c_j^{clet}(t_{stop})}{t_{stop} - t_{start}} 
 \qquad j = 1, 2 
 \\[10pt]
+\label{eq:xjcloud}
 X_j^{cloud} & = & \frac{c_j^{cloud}(t_{stop})}{t_{stop} - t_{start}} 
 \qquad j = 1, 2 
 \\[10pt]
+\label{eq:xj}
 X_j & = & X_j^{clet} + X_j^{cloud}
 \qquad j = 1, 2 
 \\[10pt]
+\label{eq:xclet}
 X_{clet} & = & X_1^{clet} + X_2^{clet}
 \\[10pt]
+\label{eq:xcloud}
 X_{cloud} & = & X_1^{cloud} + X_2^{cloud}
 \\[10pt]
+\label{eq:x}
 X & = & X_1 + X_2 = X_{clet} + X_{cloud}
 \end{eqnarray}
 %%
