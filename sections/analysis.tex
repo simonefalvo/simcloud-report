@@ -184,7 +184,7 @@ impiegato in esecuzione se non ci fosse stata interruzione, ovvero
 $1/\mu_2^{clet}$. Sarebbe quindi ideale la relazione del tipo:
 \begin{displaymath}
 E[Y] = \frac{1}{\mu_2^{clet}}(1 - \beta P_{intr})
-\qquad\quad\qquad \beta \leq 1
+\qquad\quad\qquad 0 < \beta \leq 1
 \end{displaymath}
 perché si vuole che il tempo di esecuzione antecedente all'interruzione (qui
 indicato per semplicità con $Y$) diminuisca all'aumentare della probabilità di
@@ -234,3 +234,55 @@ E[S] \ = \
 \frac{\lambda_1}{\lambda_1+\lambda_2}  E[S_1] \ + \
 \frac{\lambda_2}{\lambda_1+\lambda_2}  E[S_2] 
 \end{equation}
+%
+%
+\subsubsection{Popolazione media: Cloudlet}
+La popolazione media del cloudlet, sia per classe che globale, viene calcolata
+sommando il prodotto, relativo ad ogni stato, tra il numero di job presenti in
+esso per la probabilità di trovarcisi in condizioni di stazionarietà, ovvero:
+\begin{eqnarray}
+E[N_1^{clet}] &=& \sum_{(n_1,n_2)} n_1 \ \pi_{(n_1,n_2)} \\
+E[N_2^{clet}] &=& \sum_{(n_1,n_2)} n_2 \ \pi_{(n_1,n_2)} \\
+E[N_{clet}] &=& \sum_{(n_1,n_2)} (n_1+n_2) \ \pi_{(n_1,n_2)} 
+\end{eqnarray}
+%
+\subsubsection{Popolazione media: Cloud}
+Per il calcolo della popolazione media del cloud si può sfruttare il fatto che
+il nodo ha risorse virtualmente infinite (utilizzazione $\rho < 1$), pertanto si
+può considerare stabile ed è possibile applicare la legge di Little:
+\begin{eqnarray}
+E[N_j^{cloud}] &=& \lambda_j^{cloud} E[S_j^{cloud}]  \qquad\quad\qquad j=1,2 \\
+E[N_{cloud}] &=& (\lambda_1^{cloud} + \lambda_2^{cloud}) E[S_{cloud}]
+\end{eqnarray}
+%
+\subsubsection{Popolazione media: Setup}
+Anche il nodo di setup può essere considerato stabile per gli stessi motivi.
+Si può applicare la legge di Little con un tasso di arrivi a questo nodo pari al
+tasso di interruzione dei job di classe 2.
+\begin{eqnarray}
+\lambda_{setup} &=& \Pi_A P_{intr} \ \lambda_2    \nonumber \\
+E[N^{cloud}] &=& \lambda_{setup} \ E[S_{setup}] 
+\end{eqnarray}
+%
+\subsubsection{Popolazione media: Sistema}
+Anche il sistema si può considerare stabile, perché globalmente ha anch'esso
+risorse infinite.
+\begin{eqnarray}
+E[N_j] &=& \lambda_j E[S_j]  \qquad\quad\qquad j=1,2 \\
+E[N] &=& (\lambda_1 + \lambda_2) E[S]
+\end{eqnarray}
+%
+\subsubsection{Throughput}
+Per il calcolo del throughput si può sfruttare sempre la condizione di stabilità
+del sistema e dei suoi nodi, e poi calcolare il throughput del cloudlet
+sottraendo dal throughput del sistema quello del cloud, poiché le uscite dal
+nodo di setup non corrispondono a quelle del sistema.
+\begin{eqnarray}
+X_j^{cloud} &=& \lambda_j^{cloud}   \qquad\quad\qquad\quad j=1,2 \\
+X_{cloud} &=& \lambda_1^{cloud} + \lambda_2^{cloud}   \\
+X^{setup} &=& \lambda_{setup}   \\
+X_j &=& \lambda_j  \ \quad\qquad\quad\qquad \ \quad j=1,2 \\
+X &=& \lambda \\
+X_j^{clet} &=& X_j - X_j^{cloud} \\
+X_{clet} &=& X - X_{cloud} \quad\qquad\quad j=1,2
+\end{eqnarray}
