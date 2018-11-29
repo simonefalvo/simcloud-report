@@ -10,8 +10,11 @@
 \usepackage{algorithm}
 \usepackage{algorithmic}
 \usepackage{listings}
+\usepackage{adjustbox}
 %\usepackage{syntonly}
+
 %\syntaxonly
+%\includeonly{}
 
 \lstset{
 	language=C,
@@ -21,11 +24,9 @@
 	inputencoding=utf8,
 	literate={==}{= =}{3}
 }
-
-\pagestyle{headings}
 \pdfminorversion=7      %pdf expected version 1.7
+\pagestyle{headings}
 
-%\includeonly{}
 
 
 \begin{document}
@@ -56,6 +57,7 @@
 \input{sections/specification}
 \input{sections/computational}
 \input{sections/analysis}
+\input{sections/results}
 \input{sections/conclusion}
 \input{bibliography}
 

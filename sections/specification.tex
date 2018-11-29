@@ -283,6 +283,7 @@ che avviene all'istante $t$.
 \STATE $s_2^{clet} \leftarrow s_2^{clet} - s_2^{clet,k}$
 \STATE $s_{intr} \leftarrow s_{intr} + s_{intr,k}$
 \STATE $s_{setup} \leftarrow s_{setup} + s_{setup,k}$
+\STATE $n_{setup}(t') \leftarrow n_{setup}(t) + 1$
 \STATE $n_1^{clet}(t') \leftarrow n_1^{clet}(t) + 1$
 \STATE $n_2^{clet}(t') \leftarrow n_2^{clet}(t) - 1$
 \ELSE
@@ -302,11 +303,14 @@ che avviene all'istante $t$.
 \ENDIF
 \STATE \textbf{Partenza di un job di classe $j$ dal cloudlet}:
 \STATE $c_j^{clet}(t') \leftarrow c_j^{clet}(t) + 1$
+\STATE $n_j^{clet}(t') \leftarrow n_j^{clet}(t) - 1$
 \STATE \textbf{Partenza di un job di classe $j$ dal cloud}:
 \STATE $c_j^{cloud}(t') \leftarrow c_j^{cloud}(t) + 1$
+\STATE $n_j^{cloud}(t') \leftarrow n_j^{cloud}(t) - 1$
 \STATE \textbf{Setup}:
 \STATE \emph{esecuzione su cloud}
 \STATE $s_2^{cloud} \leftarrow s_2^{cloud} + s_2^{cloud,i}$
+\STATE $n_{setup}(t') \leftarrow n_{setup}(t) - 1$
 \STATE $n_2^{cloud}(t') \leftarrow n_2^{cloud}(t) + 1$
 \end{algorithmic}
 \end{algorithm}
