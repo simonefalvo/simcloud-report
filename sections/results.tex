@@ -1,5 +1,63 @@
 \section{Risultati}
-La tabella~\ref{srv_20} mostra i risultati della simulazione a confronto con le
-stime effettuate per un valore di $S = 20$.
+La validazione dei modelli appena discussi è stata effettuata confrontando i
+risultati della simulazione con le stime dedotte dall'analisi, valutando quattro
+possibili scenari contraddistinti dal valore che assume il parametro $S$.
+
+Ognuno di questi scenari è stato simulato facendo processare al programma lo
+stesso numero di job affinché le statistiche globali del sistema possano
+essere confrontate. Tale numero è stato stabilito in base alle metriche che
+andavano valutate ed al numero di job che le riguardava.
+
+Lo scenario con valore di soglia $S=5$, è quello in cui soltanto circa il $2\%$
+dei job di classe 2 è processato nel cloudlet e di questi circa il $90\%$
+vengono interrotti, ne risulta, quindi che in relazione al numero totale dei job
+che transitano nel sistema, solamente lo $0.14\%$ sono job di classe 2
+processati con successo nel cloudlet e l'$1.37\%$ sono job interrotti. In
+definitiva, al fine di avere una dimensione dei batch soddisfacente per il
+calcolo delle relative metriche, è stato scelto un numero totale di job pari a
+$500000$. In questo modo si ottiene un numero di job di classe 2 processati con
+successo nel cloudlet pari a circa $700$ e un numero di job interrotti pari a
+circa $6850$, ciò significa che per un valore $k=64$ corrispondente al numero
+di batch, si ottengono batch di dimensione $10$ e $107$ rispettivamente, che
+sono sufficienti a determinare intervalli di confidenza, seppur con un ampio
+margine di errore.
+
+Quello appena descritto è il peggior scenario possibile, in cui si registra il
+minor numero di job per una determinata metrica, gli altri scenari vengono
+quindi simulati tutti con un numero totale di job pari a $500000$, e a seconda
+del numero di job che verranno processati nei vari nodi e della loro tipologia,
+sono risultati intervalli di confidenza più o meno precisi.
+
+Purtroppo è risultato impossibile determinare risultati attendibili per i job
+di classe 1 che vengono processati nel cloud, poiché il loro numero è, per ogni
+scenario, talmente esiguo, che per avere un batch di dimensione 10 sarebbero
+necessari almeno 3 milioni di job in tutto. Tuttavia, con un numero di
+$500000$ job totali, si ottengono delle statistiche globali molto attendibili,
+infatti, ad esempio per il tempo medio di risposta del sistema, si ottiene 
+una dimensione del batch pari a $\lfloor\frac{500000}{64}\rfloor = 7812$.
+%
+%
+\subsection{Scenario 1: $\mathbf{S=N=20}$}
+\subsubsection{Tempi di risposta}
 \input{tables/srv_20}
 \input{tables/pop_20}
+\subsubsection{Popolazione}
+\subsubsection{Throughput}
+%
+%
+\subsection{Scenario 2: $\mathbf{S=\frac{N}{2}=10}$}
+\subsubsection{Tempi di risposta}
+\subsubsection{Popolazione}
+\subsubsection{Throughput}
+%
+%
+\subsection{Scenario 3: $\mathbf{S=\frac{3}{4}N=15}$}
+\subsubsection{Tempi di risposta}
+\subsubsection{Popolazione}
+\subsubsection{Throughput}
+%
+%
+\subsection{Scenario 4: $\mathbf{S=\frac{N}{4}=5}$}
+\subsubsection{Tempi di risposta}
+\subsubsection{Popolazione}
+\subsubsection{Throughput}

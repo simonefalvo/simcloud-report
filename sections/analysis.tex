@@ -1,5 +1,5 @@
 \section{Modello Analitico}
-In questa sezione viene mostrata la metodologia utilizzata per la stima
+In questa sezione viene mostrata la metodologia utilizzata per la stima delle
 statistiche.  Nel modello analitico le statistiche si basano sui valori medi
 delle variabili aleatorie $S$, $N$ e $X$, corrispondenti rispettivamente al
 tempo di risposta, popolazione e throughput.
@@ -37,20 +37,53 @@ Per il calcolo della distribuzione stazionaria si è utilizzato un programma di
 calcolo basato su matrici scritto in \emph{Matlab}, al fine di risolvere il
 seguente sistema di equazioni di bilancio che deriva dall'analisi della catena.
 
-[SISTEMA DI EQUAZIONI DI BILANCIO]
+\begin{displaymath}
+\left\{ \begin{array}{ll}
 
-In tal modo si è ricavato il vettore $x = (x_1, x_2, \ldots, x_n)$ di dimensione
-$n$ pari al numero di stati della catena di markov, dove un generico $x_k$
-corrisponde alla probabilità di trovarsi nello stato ($n_1, n_2$) in condizioni
-di stazionarietà, e verrà indicata con il simbolo $\pi_{(n_1,n_2)}$. A questo
-punto è possibile, sommando le opportune $\pi_{(n_1,n_2)}$, ricondursi alle
-probabilità che si verifichino determinati eventi che consentiranno di stimare
-le metriche di interesse.
+\lambda \pi_{(0,0)} - \mu_1 \pi_{(1,0)} -\mu_{2} \pi_{(0,1)} = 0 & \\[4pt]
+
+(\lambda+i\mu_1)\pi_{(i,0)} - \lambda_1\pi_{(i-1,0)} + - (i+1)\mu_1\pi_{(i+1,0)}
++ &\\
+\qquad - \mu_2\pi_{(i,1)} = 0 & 
+\qquad \forall \ i = 1, \ldots, S-1  \\[4pt]  
+
+(\lambda+j\mu_2)\pi_{(0,j)} - \lambda_2\pi_{(0,j-1)} - \mu_1\pi_{(1,j)} + &\\
+\qquad-(j+1)\mu_2\pi_{(0,j+1)} = 0 & 
+\qquad \forall \ j = 1, \ldots, S-1 \\[4pt]
+
+(\lambda+i\mu_1+j\mu_2)\pi_{(i,j)} - \lambda_1\pi_{(i-1,j)} -
+(i+1)\mu_1\pi_{(i+1,j)}+ &\\
+\qquad - \lambda_2\pi_{(i,j-1)} -(j+1)\mu_2\pi_{(1,j+1)} = 0 & \qquad \forall \
+  i,j=1,\ldots,S-1 : i+j < S \\[4pt]
+
+(\lambda_1+i\mu_1+j\mu_2)\pi_{(i,j)} - \lambda_1(\pi_{(i-1,j)}+\pi_{(i-1,j+1)})
++ &\\
+\qquad - \lambda_2\pi_{(i,j-1)} = 0 & 
+\qquad \forall \ i,j=1,\ldots,S-1 : i+j = S \\[4pt]
+
+(\lambda_1+S\mu_2)\pi_{(0,S)} - \lambda_2\pi_{(0,S-1)} = 0 & \\[4pt]
+
+(\lambda_1+S\mu_1)\pi_{(S,0)} - \lambda_1(\pi_{(S-1,0)}+\pi_{(S-1,1)}) + &\\
+\qquad -(S+1)\mu_1\pi_{(S+1,0)} = 0 & \\[4pt]
+
+(\lambda_1+i\mu_1)\pi_{(i,0)} - \lambda_1\pi_{(i-1,0)} - (i+1)\mu_1\pi_{(i+1,0)}
+= 0 & \qquad \forall \ i = S+1,\ldots,N-1 \\[4pt]
+
+\sum_{(i,j) \in E} \pi_{(i,j)} = 1 & 
+
+\end{array} \right .
+\end{displaymath}
+
+Si è quindi giunti ad ottenere le probabilità $\pi_{(n_1,n_2)}$ di trovarsi
+nello stato $(n_1, n_2) \in E$ in condizioni di stazionarietà, dove E è
+l'insieme dei possibili stati della catena.
+
+A questo punto è possibile, sommando le opportune $\pi_{(n_1,n_2)}$, ricondursi
+alle probabilità che si verifichino determinati eventi che consentiranno di
+stimare le metriche di interesse.
 %
 %
-\subsection{Stima delle metriche}
-[INTRO]
-\subsubsection{Probabilità preliminari}
+\subsection{Probabilità preliminari}
 Prima di tutto è conveniente sfruttare la distribuzione stazionaria per il
 calcolo di alcune probabilità preliminari, utili al calcolo dei tempi di
 risposta.
@@ -79,15 +112,31 @@ uno stato in cui è possibili che un job venga interrotto
 che un job accettato nel cloudlet venga interrotto, calcolata rapportando la
 frequenza di interruzione di un job alla frequenza di accettazione
 \begin{equation}
-P_{intr} = \frac{\lambda_1 \ \Pi_I}{\lambda_2 \ \Pi_A}
+P_{intr}^{clet} = \frac{\lambda_1 \ \Pi_I}{\lambda_2 \ \Pi_A}
+\end{equation}
+\item \emph{Probabilità di Interruzione di un job di classe 2}: probabilità
+che un job di classe 2 venga interrotto, ovvero che venga accettato nel cloudlet
+e interrotto
+\begin{equation}
+P_{intr} = \Pi_A \ P_{intr}^{clet}
 \end{equation}
 \end{itemize}
-Da ora in poi, con il nome con ``probabilità di
-interruzione'' verrà indicato il termine $P_{intr}$, poiché la probabilità
-$\Pi_I$ non verrà più utilizzata nel resto dell'analisi.
 %
-%
-\subsubsection{Tempo di risposta: Cloudlet}
+\subsection{Throughput}
+Per il calcolo del throughput si può sfruttare sempre la condizione di stabilità
+del sistema e dei suoi nodi, e poi calcolare il throughput del cloudlet
+sottraendo dal throughput del sistema quello del cloud, poiché le uscite dal
+nodo di setup non corrispondono a quelle del sistema.
+\begin{eqnarray}
+X_j^{cloud} &=& \lambda_j^{cloud}   \qquad\quad\qquad\quad j=1,2 \\
+X_{cloud} &=& \lambda_1^{cloud} + \lambda_2^{cloud}   \\
+X^{setup} &=& \lambda_{setup}   \\
+X_j &=& \lambda_j  \ \quad\qquad\quad\qquad \ \quad j=1,2 \\
+X &=& \lambda \\
+X_j^{clet} &=& X_j - X_j^{cloud} \\
+X_{clet} &=& X - X_{cloud} \quad\qquad\quad j=1,2
+\end{eqnarray}
+\subsection{Tempo di risposta: Cloudlet}
 Il tempo medio di risposta di un job di classe 1 per il cloudlet è banalmente il
 reciproco del tasso di servizio relativo:
 \begin{equation}
@@ -101,10 +150,10 @@ più tempo, sono più soggetti alle interruzioni, quindi
 non verranno inclusi nel calcolo del tempo medio ed incideranno maggiormente i
 job con un tempo di servizio minore.
 Si può stimare che, tale tempo di risposta medio, viene abbattuto di un fattore
-$S_r$ proporzionale alla probabilità che un job venga interrotto.
+$E[S_r]$ proporzionale alla probabilità che un job venga interrotto.
 \begin{eqnarray}
-S_r &=& \frac{1}{\mu_2^{clet}} \ P_{intr}  \nonumber \\
-E[S_2^{clet}] &=& \frac{1}{\mu_2^{clet}} - S_r
+E[S_r] &=& \frac{1}{\mu_2^{clet}} \ P_{intr}^{clet}  \nonumber \\
+E[S_2^{clet}] &=& \frac{1}{\mu_2^{clet}} - E[S_r]
 \end{eqnarray}
 
 Tale stima è ragionevole, poiché se si ragiona al limite si ha che, in assenza di
@@ -112,16 +161,16 @@ interruzioni, il tempo di risposta assume il valore normale $1/\mu_2^{clet}$,
 altrimenti, con una probabilità di interruzione pari a 1, assume giustamente il
 valore nullo, poiché non ci sarebbero completamenti in tali condizioni.
 \begin{eqnarray*}
-P_{intr} \longrightarrow 0 \qquad & \Rightarrow \qquad & 
-S_r \rightarrow 0 \ ; \qquad E[S_2^{clet}] \rightarrow
+P_{intr}^{clet} \longrightarrow 0 \qquad & \Rightarrow \qquad & 
+E[S_r] \rightarrow 0 \ ; \qquad E[S_2^{clet}] \rightarrow
 \frac{1}{\mu_2^{clet}} \ \\
-P_{intr} \longrightarrow 1 \qquad & \Rightarrow \qquad & 
-S_r \rightarrow \frac{1}{\mu_2^{clet}} \ ; \qquad E[S_2^{clet}] \rightarrow 0
+P_{intr}^{clet} \longrightarrow 1 \qquad & \Rightarrow \qquad & 
+E[S_r] \rightarrow \frac{1}{\mu_2^{clet}} \ ; \qquad E[S_2^{clet}] \rightarrow 0
 \end{eqnarray*}
 
 Il tempo di risposta medio globale per il cloudlet è calcolato come una media
-pesata sul tipo di job di che attraversano il nodo. Nello specifico si ha che
-una porzione pari a $\lambda_1/(\lambda_1+\lambda_2)$ degli arrivi totali al
+pesata sul tipo di job che attraversano il nodo. Nello specifico si ha che una
+porzione pari a $\lambda_1/(\lambda_1+\lambda_2)$ degli arrivi totali al
 cloudlet è di classe 1 e sarà in servizio per un tempo mediamente pari a
 $E[S_1^{clet}]$, la restante porzione ($\lambda_2/(\lambda_1+\lambda_2)$) invece
 è di classe 2 e sarà in servizio per un tempo mediamente pari a $E[S_2^{clet}]$.
@@ -132,7 +181,7 @@ E[S_{clet}] =
 \frac{\lambda_2}{\lambda_1+\lambda_2} \ E[S_2^{clet}] 
 \end{equation}
 %
-\subsubsection{Tempo di risposta: Cloud}
+\subsection{Tempo di risposta: Cloud}
 Per quanto riguarda il cloud, i tempi di risposta specifici per classe sono
 molto semplici da stimare, e sono pari al reciproco del rispettivo tasso di
 servizio:
@@ -155,19 +204,19 @@ una sostituzione con uno di classe 1. In conlusione si ottiene:
 \begin{eqnarray}
 \lambda_1^{cloud} = \Pi_B \ \lambda_1 
 \qquad\quad\qquad
-\lambda_2^{cloud} = (\Pi_S + \Pi_A P_{intr}) \ \lambda_2 \nonumber\\[4pt]
+\lambda_2^{cloud} = (\Pi_S + P_{intr}) \ \lambda_2 \nonumber\\[4pt]
 E[S_{cloud}] = 
 \frac{\lambda_1^{cloud}}{\lambda_1^{cloud}+\lambda_2^{cloud}} \ E[S_1^{cloud}] +
 \frac{\lambda_2^{cloud}}{\lambda_1^{cloud}+\lambda_2^{cloud}} \ E[S_2^{cloud}] 
 \end{eqnarray}
 %
-\subsubsection{Tempo di risposta: Sistema}
+\subsection{Tempo di risposta: Sistema}
 Un job di classe 1, al suo arrivo nel sistema, può essere soggetto a due
 alternative: essere inoltrato nel cloud nel caso in cui il cloudlet sia saturo
 con probabilità $\Pi_B$, oppure essere eseguito nel cloudlet con probabilità
 $1-\Pi_B$.
 \begin{equation}
-E[S_1] = (1-\Pi_B) \ E[S_{clet}] \ + \ \Pi_B \ E[S_{cloud}]
+E[S_1] = (1-\Pi_B) \ E[S_1^{clet}] \ + \ \Pi_B \ E[S_1^{cloud}]
 \end{equation}
 
 Prima di calcolare il tempo di risposta medio dei job di classe 2, è necessario
@@ -183,7 +232,7 @@ caso è necessario sottrarre un certa quantità al tempo che normalmente avrebbe
 impiegato in esecuzione se non ci fosse stata interruzione, ovvero
 $1/\mu_2^{clet}$. Sarebbe quindi ideale la relazione del tipo:
 \begin{displaymath}
-E[Y] = \frac{1}{\mu_2^{clet}}(1 - \beta P_{intr})
+E[Y] = \frac{1}{\mu_2^{clet}}(1 - \beta \ P_{intr}^{clet})
 \qquad\quad\qquad 0 < \beta \leq 1
 \end{displaymath}
 perché si vuole che il tempo di esecuzione antecedente all'interruzione (qui
@@ -202,7 +251,7 @@ quindi alla formula seguente per il calcolo del tempo medio di servizio di un
 job interrotto:
 \begin{equation}
 E[S_{intr}] = 
-(1 - \beta P_{intr}) \frac{1}{\mu_2^{clet}} + E[S_{setup}] + E[S_{cloud}]
+(1 - \beta P_{intr}^{clet}) \frac{1}{\mu_2^{clet}} + E[S_{setup}] + E[S_{cloud}]
 \qquad\quad \beta = 0.95
 \end{equation}
 
@@ -214,18 +263,18 @@ raggiunto il valore di soglia, dove viene eseguito per un tempo mediamente pari
 a $E[S_2^{cloud}]$, questo avviene con probabilità $\Pi_S$;
 \item[-]Il job viene accettato nel cloudlet e non viene interrotto, il suo tempo
 di esecuzione è mediamente pari a $E[S_2^{clet}]$, questo accade con probabilità
-$\Pi_A (1 - P_{intr})$;
+$\Pi_A (1 - P_{intr}^{clet})$;
 \item[-]Il job viene eseguito nel cloudlet, viene interrotto ed inoltrato al
 server remoto in cui viene eseguito dopo una fase di setup, questo avviene con
-probabilità $\Pi_A P_{intr}$ ed il tempo di esecuzione è mediamente pari a 
+probabilità $P_{intr}$ ed il tempo di esecuzione è mediamente pari a 
 $E[S_{intr}]$; 
 \end{itemize}
 Pertanto un job di classe 2 ha un tempo di risposta medio che deriva dalla
 seguente formula:
 \begin{equation}
 E[S_2] \ = \
-\Pi_S E[S_2^{cloud}] \ + \ \Pi_A (1-P_{intr}) E[S_2^{clet}] \ + \ 
-\Pi_A P_{intr} E[S_{intr}]
+\Pi_S E[S_2^{cloud}] \ + \ \Pi_A (1-P_{intr}^{clet}) E[S_2^{clet}] \ + \ 
+P_{intr} E[S_{intr}]
 \end{equation}
 Il tempo di risposta globale del sistema è calcolato analogamente al caso del
 cloudlet, con i tempi di servizio riferiti al sistema intero, si ha quindi:
@@ -236,17 +285,17 @@ E[S] \ = \
 \end{equation}
 %
 %
-\subsubsection{Popolazione media: Cloudlet}
+\subsection{Popolazione media: Cloudlet}
 La popolazione media del cloudlet, sia per classe che globale, viene calcolata
 sommando il prodotto, relativo ad ogni stato, tra il numero di job presenti in
 esso per la probabilità di trovarcisi in condizioni di stazionarietà, ovvero:
 \begin{eqnarray}
-E[N_1^{clet}] &=& \sum_{(n_1,n_2)} n_1 \ \pi_{(n_1,n_2)} \\
-E[N_2^{clet}] &=& \sum_{(n_1,n_2)} n_2 \ \pi_{(n_1,n_2)} \\
-E[N_{clet}] &=& \sum_{(n_1,n_2)} (n_1+n_2) \ \pi_{(n_1,n_2)} 
+E[N_1^{clet}] &=& \sum_{(n_1,n_2) \in E} n_1 \ \pi_{(n_1,n_2)} \\
+E[N_2^{clet}] &=& \sum_{(n_1,n_2) \in E} n_2 \ \pi_{(n_1,n_2)} \\
+E[N_{clet}] &=& \sum_{(n_1,n_2) \in E} (n_1+n_2) \ \pi_{(n_1,n_2)} 
 \end{eqnarray}
 %
-\subsubsection{Popolazione media: Cloud}
+\subsection{Popolazione media: Cloud}
 Per il calcolo della popolazione media del cloud si può sfruttare il fatto che
 il nodo ha risorse virtualmente infinite (utilizzazione $\rho < 1$), pertanto si
 può considerare stabile ed è possibile applicare la legge di Little:
@@ -255,16 +304,16 @@ E[N_j^{cloud}] &=& \lambda_j^{cloud} E[S_j^{cloud}]  \qquad\quad\qquad j=1,2 \\
 E[N_{cloud}] &=& (\lambda_1^{cloud} + \lambda_2^{cloud}) E[S_{cloud}]
 \end{eqnarray}
 %
-\subsubsection{Popolazione media: Setup}
+\subsection{Popolazione media: Setup}
 Anche il nodo di setup può essere considerato stabile per gli stessi motivi.
 Si può applicare la legge di Little con un tasso di arrivi a questo nodo pari al
 tasso di interruzione dei job di classe 2.
 \begin{eqnarray}
-\lambda_{setup} &=& \Pi_A P_{intr} \ \lambda_2    \nonumber \\
+\lambda_{setup} &=& P_{intr} \ \lambda_2    \nonumber \\
 E[N^{cloud}] &=& \lambda_{setup} \ E[S_{setup}] 
 \end{eqnarray}
 %
-\subsubsection{Popolazione media: Sistema}
+\subsection{Popolazione media: Sistema}
 Anche il sistema si può considerare stabile, perché globalmente ha anch'esso
 risorse infinite.
 \begin{eqnarray}
@@ -272,17 +321,3 @@ E[N_j] &=& \lambda_j E[S_j]  \qquad\quad\qquad j=1,2 \\
 E[N] &=& (\lambda_1 + \lambda_2) E[S]
 \end{eqnarray}
 %
-\subsubsection{Throughput}
-Per il calcolo del throughput si può sfruttare sempre la condizione di stabilità
-del sistema e dei suoi nodi, e poi calcolare il throughput del cloudlet
-sottraendo dal throughput del sistema quello del cloud, poiché le uscite dal
-nodo di setup non corrispondono a quelle del sistema.
-\begin{eqnarray}
-X_j^{cloud} &=& \lambda_j^{cloud}   \qquad\quad\qquad\quad j=1,2 \\
-X_{cloud} &=& \lambda_1^{cloud} + \lambda_2^{cloud}   \\
-X^{setup} &=& \lambda_{setup}   \\
-X_j &=& \lambda_j  \ \quad\qquad\quad\qquad \ \quad j=1,2 \\
-X &=& \lambda \\
-X_j^{clet} &=& X_j - X_j^{cloud} \\
-X_{clet} &=& X - X_{cloud} \quad\qquad\quad j=1,2
-\end{eqnarray}

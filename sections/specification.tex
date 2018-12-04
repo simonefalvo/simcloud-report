@@ -5,7 +5,7 @@ evolve a seguito degli eventi che si verificano ed i vincoli a cui esso deve
 sottostare.
 %
 %
-\subsection{Metriche}
+\subsection{Variabili}
 Di principale interesse sono le variabili che compongono lo stato del sistema,
 ovvero quelle che lo caratterizzano completamente, esse tengonono conto del
 numero di job in servizio suddivisi per classe e per nodo di esecuzione ad ogni
@@ -30,11 +30,11 @@ sempre suddivise per classe e nodo di esecuzione.
 %
 \begin{table}[!h]
 \begin{tabular}{c|l}
-{$s_{1,i}^{clet}$}       & tempo di servizio dell’i-esimo job di classe 1 eseguito
+{$s_{1,i}^{clet}$}     & tempo di servizio dell’i-esimo job di classe 1 eseguito
 nel cloudlet \\[2pt]
-{$s_{2,i}^{clet}$}       & tempo di servizio dell’i-esimo job di classe 2 eseguito
+{$s_{2,i}^{clet}$}     & tempo di servizio dell’i-esimo job di classe 2 eseguito
 nel cloudlet \\[2pt]
-{$s_{1,i}^{cloud}$}      & tempo di servizio dell’i-esimo job di classe 1 eseguito
+{$s_{1,i}^{cloud}$}    & tempo di servizio dell’i-esimo job di classe 1 eseguito
 nel cloud \\[2pt]
 {$s_2^{cloud,i}$}      & tempo di servizio dell’i-esimo job di classe 2 eseguito
 nel cloud \\[2pt]
@@ -86,6 +86,7 @@ dell’applicazione.
 \end{enumerate}
 %
 %
+\subsection{Metriche}
 \subsubsection{Tempi di risposta}
 Poiché i nodi del sistema sono sprovvisti di code, i tempi medi di risposta
 corrispono ai tempi medi di servizio, il calcolo viene quindi ridotto al
@@ -239,6 +240,16 @@ Il throughput del centro di setup non è particolarmente interessante perché è
 nodo interno che non emette job all'esterno del sistema, funge solo da nodo
 intermedio tra cloudlet e cloud, in definitiva il suo throughput non
 contriubuisce a quello del sistema.
+\subsubsection{Interruzioni}
+La percentuale di job interrotti viene calcolata sia rispetto al numero di job di
+classe 2 del sistema, sia rispetto al numero di job di classe 2 che passano per
+il cloudlet.
+\begin{eqnarray}
+P_{intr} &=& 
+\frac{n_{intr}(t_{stop})}{c_2^{clet}(t_{stop}) + c_2^{cloud}(t_{stop})} \\[10pt]
+P_{intr}^{clet} &=& 
+\frac{n_{intr}(t_{stop})}{n_{intr}(t_{stop}) + c_2^{clet}(t_{stop})}
+\end{eqnarray}
 %
 \subsection{Eventi}
 Lo stato del sistema evolve a seguito di eventi di vario tipo:
