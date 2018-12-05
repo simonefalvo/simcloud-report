@@ -1,4 +1,5 @@
 \section{Risultati}
+\newcommand{\epsmx}{$\varepsilon_{max}$}
 La validazione dei modelli appena discussi è stata effettuata confrontando i
 risultati della simulazione con le stime dedotte dall'analisi, valutando quattro
 possibili scenari contraddistinti dal valore che assume il parametro $S$.
@@ -45,564 +46,477 @@ tra la stima e l'estremo più lontano di ogni intervallo di confidenza.
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Scenario 1: $\mathbf{S=N=20}$}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Tempi di risposta: Cloudlet}
-%
-\begin{figure}[!h]
-\centering
-%
-\begin{subfigure}[t]{0.49\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/20_500K_s1clet}
-\caption{classe 1}
-\label{20_s1clet}
-\end{subfigure}
-%
-\begin{subfigure}[t]{0.49\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/20_500K_s2clet}
-\caption{classe 2}
-\label{20_s2clet}
-\end{subfigure}
-%
-\begin{subfigure}[t]{0.5\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/20_500K_sclet}
-\caption{globale}
-\label{20_sclet}
-\end{subfigure}
-%
-\caption{tempo di risposta medio cloudlet per $S = 20$}
-\end{figure}
-%
-\input{tables/20_sclet}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Tempi di risposta: Cloud}
-%
-\begin{figure}[!h]
-\centering
-%
-\begin{subfigure}[t]{0.49\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/20_500K_s1cloud}
-\caption{classe 1}
-\label{20_s1cloud}
-\end{subfigure}
-%
-\begin{subfigure}[t]{0.49\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/20_500K_s2cloud}
-\caption{classe 2}
-\label{20_s2cloud}
-\end{subfigure}
-%
-\begin{subfigure}[t]{0.5\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/20_500K_scloud}
-\caption{globale}
-\label{20_scloud}
-\end{subfigure}
-%
-\caption{tempo di risposta medio cloud per $S = 20$}
-\end{figure}
-%
-\input{tables/20_scloud}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Tempi di risposta: Interruzioni}
+\subsection{Percentuale Interruzioni}
+Per comprendere al meglio l'analisi delle simulazioni ed il confronto con le
+stime effettuate è conveniente iniziare dalla presentazione dei risultati
+riguardanti la percentuale di job di classe 2 interrotti, poiché da questi
+dipendono la maggior parte delle metriche successive.
+
+I grafici in figura~\ref{plot:intperc} mostrano che, nei casi in cui
+$S=20,15,10$, la stima della percentuale di interruzione risulta leggermente
+inferiore dei valori osservati nelle simulazioni e l'errore massimo che viene
+commesso è di circa il $5$-$6\%$, mentre per quanto riguarda il caso in cui
+$S=5$ si ottiene una stima leggermente migliore, ma ciò è dovuto al basso
+valore della soglia che impedisce ai job di classe 2 di accedere al cloudlet, di
+conseguenza è stata riscontrata una maggiore variabilità dei valori delle
+simulazioni e si commette infatti un'errore massimo più alto pari al $7.6\%$.
+
+La maggiore percentuale di job interrotti (circa del $30\%$ considerando le
+varie repliche), si ottiene per $S=10$, mentre nei restanti due casi non si
+hanno valori troppo discordanti, differiscono infatti di circa un punto
+percentuale.
+
+I valori delle simulazioni e gli errori relativi rispetto alla stima del modello
+analitico sono riportati nelle
+tabella~\ref{tab:intperc}.
 %
 \begin{figure}[!h]
 \centering
 %
 \begin{subfigure}[t]{0.49\textwidth}
 \includegraphics[width=\textwidth]{figures/simul/20_500K_intperc}
-\caption{percentuale classe 2 interrotti}
+\caption{$S = 20$}
 \label{20_intperc}
 \end{subfigure}
 %
 \begin{subfigure}[t]{0.49\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/20_500K_sintr}
-\caption{tempo di risposta job interrotti}
+\includegraphics[width=\textwidth]{figures/simul/15_500K_intperc}
+\caption{$S = 15$}
+\label{15_intperc}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/10_500K_intperc}
+\caption{$S = 10$}
+\label{10_intperc}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/5_500K_intperc}
+\caption{$S = 5$}
+\label{5_intperc}
+\end{subfigure}
+%
+\caption{Percentuale di interruzioni}
+\label{plot:intperc}
+\end{figure}
+%
+%
+\input{tables/intperc}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Tempo di Risposta Cloudlet Classe 1}
+Il tempo di risposta per un job di classe 1 che viene eseguito nel cloudlet è
+indipendente dal parametro S ed i risultati presentati in
+figura~\ref{plot:s1clet} e nella tabella~\ref{tab:s1clet} mostrano che tutti gli
+intervalli di confidenza calcolati comprendono il valore stimato ed il valore
+dell'errore massimo è sotto la soglia dell'$1\%$ in ogni caso.
+\begin{figure}[!h]
+\centering
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/20_500K_s1clet}
+\caption{$S = 20$}
+\label{20_s1clet}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/15_500K_s1clet}
+\caption{$S = 15$}
+\label{15_s1clet}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/10_500K_s1clet}
+\caption{$S = 10$}
+\label{10_s1clet}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/5_500K_s1clet}
+\caption{$S = 5$}
+\label{5_s1clet}
+\end{subfigure}
+%
+\caption{tempo di risposta cloudlet classe 1}
+\label{plot:s1clet}
+\end{figure}
+%
+%
+\input{tables/s1clet.tex}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Tempo di Risposta Cloudlet Classe 2}
+La figura~\ref{plot:s2clet} e la tabella~\ref{tab:s2clet} mostrano un tempo di
+risposta medio per i job di classe 2 eseguiti nel cloudlet che cresce/decresce
+in modo proporzionale ad $S$, ciò sta a indicare che la probabilità di
+interruzione di un job in esecuzione nel cloudlet ($P_{intr}^{clet}$) è
+inversamente proporzionale a $S$ ed incide maggiormente nell'abbattimento del
+tempo di risposta laddove $S$ è minore.
+
+La stima effettuata, nei casi in cui $S=20,15,10$, è affidabile con un errore
+massimo del $5\%$, mentre, nel caso in cui $S=5$, gli intervalli di confidenza
+hanno un ampiezza eccessiva con un errore anche del $104\%$, quest'ultimo fatto
+è dovuto al basso valore del parametro di soglia e all'elevato tasso di
+interruzione per i job accettati nel nodo, risulta così un ridotto numero di job
+di classe 2 che vengono processati nel cloudlet, e di conseguenza una dimensione
+dei batch troppo piccola per ottenere intervalli precisi.
+\begin{figure}[!h]
+\centering
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/20_500K_s2clet}
+\caption{$S = 20$}
+\label{20_s2clet}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/15_500K_s2clet}
+\caption{$S = 15$}
+\label{15_s2clet}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/10_500K_s2clet}
+\caption{$S = 10$}
+\label{10_s2clet}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/5_500K_s2clet}
+\caption{$S = 5$}
+\label{5_s2clet}
+\end{subfigure}
+%
+\caption{tempo di risposta cloudlet classe 2}
+\label{plot:s2clet}
+\end{figure}
+%
+%
+\input{tables/s2clet.tex}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Tempo di Risposta Cloudlet}
+I risultati della simulazione (figura~\ref{plot:sclet} e
+tabella~\ref{tab:sclet}) mostrano come il clodlet reagisce in base ai diversi
+scenari:
+\begin{itemize}
+\item[$S=5$ :] l'esiguo numero di job di classe 2 processati nel cloudlet
+discusso in precedenza, fa sì che nel cloudlet è come se fossero eseguiti
+soltanto job di classe 1, infatti il tempo di risposta medio globale del nodo è
+molto vicino al tempo di risposta medio di quest'ultimi;
+\item[$S=20$ :] in questo caso le interruzioni comportano una riduzione
+significativa del tempo di servizio medio dei job di classe 2, pertanto il tempo
+di risposta medio globale del cloudlet ne risulta attenuato;
+\item[$S=10,15$ :] il maggior numero di interruzioni riduce di molto il tempo di
+servizio medio dei job di classe 2, in maniera tale da portare il tempo di
+risposta medio globale del cloudlet al di sotto del tempo che si avrebbe nel
+caso in cui fossero eseguiti soltanto job di classe 1.
+\end{itemize}
+
+Le stime effettuate si avvicinano ai valori delle simulazioni con un errore che
+va dallo $0.7\%$ del caso in cui $S=10$ all' $1.7\%$ del caso in cui $S=5$.
+Degno di nota è il fatto che, in quest'ultimo caso, l'errore sulla stima della
+statistica di classe 2 precedente, non abbia inciso particolarmente, sempre
+per via dell'esiguo numero di job processati della suddetta classe.
+\begin{figure}[!h]
+\centering
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/20_500K_sclet}
+\caption{$S = 20$}
+\label{20_sclet}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/15_500K_sclet}
+\caption{$S = 15$}
+\label{15_sclet}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/10_500K_sclet}
+\caption{$S = 10$}
+\label{10_sclet}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/5_500K_sclet}
+\caption{$S = 5$}
+\label{5_sclet}
+\end{subfigure}
+%
+\caption{tempo di risposta cloudlet}
+\label{plot:sclet}
+\end{figure}
+%
+%
+\input{tables/sclet.tex}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Tempo di Risposta Cloud Classe 2}
+Il tempo di risposta per un job di classe 2 che viene eseguito nel cloud è
+indipendente dal parametro S ed i risultati presentati in
+figura~\ref{plot:s2cloud} e nella tabella~\ref{tab:s2cloud} mostrano che tutti
+gli intervalli di confidenza calcolati comprendono il valore stimato ed il
+valore dell'errore massimo è sotto la soglia dell'$1\%$ in ogni caso.
+\begin{figure}[!h]
+\centering
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/20_500K_s2cloud}
+\caption{$S = 20$}
 \label{20_s2cloud}
 \end{subfigure}
 %
-\caption{statistice job interrotti per $S=20$}
-\end{figure}
-\input{tables/20_sintr}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Tempi di risposta: Sistema}
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/15_500K_s2cloud}
+\caption{$S = 15$}
+\label{15_s2cloud}
+\end{subfigure}
 %
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/10_500K_s2cloud}
+\caption{$S = 10$}
+\label{10_s2cloud}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/5_500K_s2cloud}
+\caption{$S = 5$}
+\label{5_s2cloud}
+\end{subfigure}
+%
+\caption{tempo di risposta cloud classe 2}
+\label{plot:s2cloud}
+\end{figure}
+%
+%
+\input{tables/s2cloud.tex}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Tempo di Risposta Cloud}
+Il tempo di risposta del cloud è completamente dominato dai job di classe 2,
+infatti, come mostrano la figura~\ref{plot:scloud} e la
+tabella~\ref{tab:scloud}, i risultati sono pressoché identici alla precedente
+metrica.
+\begin{figure}[!h]
+\centering
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/20_500K_scloud}
+\caption{$S = 20$}
+\label{20_scloud}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/15_500K_scloud}
+\caption{$S = 15$}
+\label{15_scloud}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/10_500K_scloud}
+\caption{$S = 10$}
+\label{10_scloud}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/5_500K_scloud}
+\caption{$S = 5$}
+\label{5_scloud}
+\end{subfigure}
+%
+\caption{tempo di risposta cloud}
+\label{plot:scloud}
+\end{figure}
+%
+%
+\input{tables/scloud.tex}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Tempo di Risposta Job Interrotti}
+La figura~\ref{plot:sintr} e la tabella~\ref{tab:sintr}, confermano che il tempo
+di risposta dei job interrotti ha un andamento analogo al tempo di risposta
+medio dei job di classe 2 processati con successo nel cloudlet, infatti si nota
+che tale tempo è direttamente proporzionale al parametro di soglia, quindi
+inversamente proporzionale alla probabilità di interruzione.
+
+Effettuando un confronto con i tempi di risposta del cloudlet, ci si rende conto
+di quanto costi l'interruzione di un job ed è quindi lecito aspettarsi che
+queste interruzioni incidano in maniera significativa sul tempo di risposta dei
+job di classe 2 del sistema.
+
+Anche l'errore massimo che si è commesso con la stima della statistiche, sembra
+crescere con $S$, infatti per $S=5$ si ha un errore massimo dell'$1.1\%$ che
+cresce fino ad arrivare al $2.5\%$ nel caso in cui $S=20$. 
+\begin{figure}[!h]
+\centering
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/20_500K_sintr}
+\caption{$S = 20$}
+\label{20_sintr}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/15_500K_sintr}
+\caption{$S = 15$}
+\label{15_sintr}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/10_500K_sintr}
+\caption{$S = 10$}
+\label{10_sintr}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/5_500K_sintr}
+\caption{$S = 5$}
+\label{5_sintr}
+\end{subfigure}
+%
+\caption{tempo di risposta job interrotti}
+\label{plot:sintr}
+\end{figure}
+%
+%
+\input{tables/sintr.tex}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Tempo di Risposta Sistema Classe 1}
+Il tempo di risposta globale dei job di classe 1 è completamente dominato dal
+tempo di risposta dei job processati nel cloudlet, essendo molto minore il
+numero di quelli eseguiti nel cloud. Infatti la figura~\ref{plot:s1} e la
+tabella~\ref{tab:s1} mostrano delle statistiche pressoché identiche a quelle
+relative al tempo di risposta dei job di classe 1 eseguiti nel coudlet, con un
+errore massimo inferiore all'$1\%$.
 \begin{figure}[!h]
 \centering
 %
 \begin{subfigure}[t]{0.49\textwidth}
 \includegraphics[width=\textwidth]{figures/simul/20_500K_s1}
-\caption{classe 1}
+\caption{$S = 20$}
 \label{20_s1}
 \end{subfigure}
 %
 \begin{subfigure}[t]{0.49\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/20_500K_s2}
-\caption{classe 2}
-\label{20_s2}
+\includegraphics[width=\textwidth]{figures/simul/15_500K_s1}
+\caption{$S = 15$}
+\label{15_s1}
 \end{subfigure}
-%
-\begin{subfigure}[t]{0.5\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/20_500K_s}
-\caption{globale}
-\label{20_s}
-\end{subfigure}
-%
-\caption{tempo di risposta medio sistema per $S = 20$}
-\end{figure}
-%
-\input{tables/20_s}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Popolazione: Cloudlet}
-%
-\begin{figure}[!h]
-\centering
-%
-\begin{subfigure}[t]{0.49\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/20_500K_n1clet}
-\caption{classe 1}
-\label{20_n1clet}
-\end{subfigure}
-%
-\begin{subfigure}[t]{0.49\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/20_500K_n2clet}
-\caption{classe 2}
-\label{20_n2clet}
-\end{subfigure}
-%
-\begin{subfigure}[t]{0.5\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/20_500K_nclet}
-\caption{globale}
-\label{20_nclet}
-\end{subfigure}
-%
-\caption{popolazione media cloudlet per $S = 20$}
-\end{figure}
-%
-\input{tables/20_nclet}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Popolazione: Cloud}
-%
-\begin{figure}[!h]
-\centering
-%
-\begin{subfigure}[t]{0.49\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/20_500K_n1cloud}
-\caption{classe 1}
-\label{20_n1cloud}
-\end{subfigure}
-%
-\begin{subfigure}[t]{0.49\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/20_500K_n2cloud}
-\caption{classe 2}
-\label{20_n2cloud}
-\end{subfigure}
-%
-\begin{subfigure}[t]{0.5\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/20_500K_ncloud}
-\caption{globale}
-\label{20_ncloud}
-\end{subfigure}
-%
-\caption{popolazione media cloud per $S = 20$}
-\end{figure}
-%
-\input{tables/20_ncloud}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Popolazione: Sistema}
-%
-\begin{figure}[!h]
-\centering
-%
-\begin{subfigure}[t]{0.49\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/20_500K_n1}
-\caption{classe 1}
-\label{20_n1}
-\end{subfigure}
-%
-\begin{subfigure}[t]{0.49\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/20_500K_n2}
-\caption{classe 2}
-\label{20_n2}
-\end{subfigure}
-%
-\begin{subfigure}[t]{0.5\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/20_500K_n}
-\caption{globale}
-\label{20_n}
-\end{subfigure}
-%
-\caption{popolazione media sistema per $S = 20$}
-\end{figure}
-%
-\input{tables/20_n}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Throughput: Cloudlet}
-%
-\begin{figure}[!h]
-\centering
-%
-\begin{subfigure}[t]{0.49\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/20_500K_x1clet}
-\caption{classe 1}
-\label{20_x1clet}
-\end{subfigure}
-%
-\begin{subfigure}[t]{0.49\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/20_500K_x2clet}
-\caption{classe 2}
-\label{20_x2clet}
-\end{subfigure}
-%
-\begin{subfigure}[t]{0.5\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/20_500K_xclet}
-\caption{globale}
-\label{20_xclet}
-\end{subfigure}
-%
-\caption{throughput cloudlet per $S = 20$}
-\end{figure}
-%
-\input{tables/20_xclet}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Throughput: Cloud}
-%
-\begin{figure}[!h]
-\centering
-%
-\begin{subfigure}[t]{0.49\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/20_500K_x1cloud}
-\caption{classe 1}
-\label{20_x1cloud}
-\end{subfigure}
-%
-\begin{subfigure}[t]{0.49\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/20_500K_x2cloud}
-\caption{classe 2}
-\label{20_x2cloud}
-\end{subfigure}
-%
-\begin{subfigure}[t]{0.5\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/20_500K_xcloud}
-\caption{globale}
-\label{20_xcloud}
-\end{subfigure}
-%
-\caption{throughput cloud per $S = 20$}
-\end{figure}
-%
-\input{tables/20_xcloud}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Throughput: Sistema}
-%
-\begin{figure}[!h]
-\centering
-%
-\begin{subfigure}[t]{0.49\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/20_500K_x1}
-\caption{classe 1}
-\label{20_x1}
-\end{subfigure}
-%
-\begin{subfigure}[t]{0.49\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/20_500K_x2}
-\caption{classe 2}
-\label{20_x2}
-\end{subfigure}
-%
-\begin{subfigure}[t]{0.5\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/20_500K_x}
-\caption{globale}
-\label{20_x}
-\end{subfigure}
-%
-\caption{throughput sistema per $S = 20$}
-\end{figure}
-%
-\input{tables/20_x}
-%
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Scenario 2: $\mathbf{S=\frac{N}{2}=10}$}
-\subsubsection{Tempi di risposta: Cloudlet}
-%
-\begin{figure}[!h]
-\centering
-%
-\begin{subfigure}[t]{0.49\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/10_500K_s1clet}
-\caption{classe 1}
-\label{10_s1clet}
-\end{subfigure}
-%
-\begin{subfigure}[t]{0.49\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/10_500K_s2clet}
-\caption{classe 2}
-\label{10_s2clet}
-\end{subfigure}
-%
-\begin{subfigure}[t]{0.5\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/10_500K_sclet}
-\caption{globale}
-\label{10_sclet}
-\end{subfigure}
-%
-\caption{tempo di risposta medio cloudlet per $S = 10$}
-\end{figure}
-%
-\input{tables/10_sclet}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Tempi di risposta: Cloud}
-%
-\begin{figure}[!h]
-\centering
-%
-\begin{subfigure}[t]{0.49\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/10_500K_s1cloud}
-\caption{classe 1}
-\label{10_s1cloud}
-\end{subfigure}
-%
-\begin{subfigure}[t]{0.49\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/10_500K_s2cloud}
-\caption{classe 2}
-\label{10_s2cloud}
-\end{subfigure}
-%
-\begin{subfigure}[t]{0.5\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/10_500K_scloud}
-\caption{globale}
-\label{10_scloud}
-\end{subfigure}
-%
-\caption{tempo di risposta medio cloud per $S = 10$}
-\end{figure}
-%
-\input{tables/10_scloud}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Tempi di risposta: Interruzioni}
-%
-\begin{figure}[!h]
-\centering
-%
-\begin{subfigure}[t]{0.49\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/10_500K_intperc}
-\caption{percentuale classe 2 interrotti}
-\label{10_intperc}
-\end{subfigure}
-%
-\begin{subfigure}[t]{0.49\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/10_500K_sintr}
-\caption{tempo di risposta job interrotti}
-\label{10_s2cloud}
-\end{subfigure}
-%
-\caption{statistice job interrotti per $S=10$}
-\end{figure}
-\input{tables/10_sintr}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Tempi di risposta: Sistema}
-%
-\begin{figure}[!h]
-\centering
 %
 \begin{subfigure}[t]{0.49\textwidth}
 \includegraphics[width=\textwidth]{figures/simul/10_500K_s1}
-\caption{classe 1}
+\caption{$S = 10$}
 \label{10_s1}
 \end{subfigure}
 %
 \begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/5_500K_s1}
+\caption{$S = 5$}
+\label{5_s1}
+\end{subfigure}
+%
+\caption{tempo di risposta sistema classe 1}
+\label{plot:s1}
+\end{figure}
+%
+%
+\input{tables/s1.tex}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Tempo di Risposta Sistema Classe 2}
+La figura~\ref{plot:s2} e la tabella~\ref{tab:s2} mostrano che, nei casi in cui
+$S=10,15,20$, i risultati delle simulazioni che risultano essere leggermente
+superiori alle stime del modello analitico. Questo può essere dovuto
+al peso che esercitano i job interrotti nel calcolo, infatti si ritrova la
+stessa sottostima per quanto riguarda le percentuali di job interrotti
+mostrate all'inizio, ma con un errore massimo minore (al più del $3.5\%$).
+Inoltre nel caso in cui $S=5$, si ha una stima precisa con un errore massimo
+dello $0.7\%$, perché vi sono un bassissimo numero di interruzioni.
+
+Può essere interessante notare che si ottiene il minor tempo di risposta nello
+scenario per cui $S=20$, nel quale si sperimenta il massimo tempo di risposta
+dei job interrotti e una percentuale di interruzioni più alta del caso in cui si
+sperimenta un tempo di risposta più basso per i job interrotti($S=10$). È
+evidente quindi che acquista un peso significativo anche il tempo di esecuzione
+nel cloud per quei job che ci finiscono direttamente, infatti nel caso in cui
+$S=5$, nonostante soltanto circa il $2\%$ dei job viene interrotto, si registra
+comunque un tempo paragonabile ai casi in cui ci sono maggiori interruzioni,
+questo perché la maggior parte dei job di classe 2 viene direttamente inoltrata
+al cloud.
+\begin{figure}[!h]
+\centering
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/20_500K_s2}
+\caption{$S = 20$}
+\label{20_s2}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/15_500K_s2}
+\caption{$S = 15$}
+\label{15_s2}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
 \includegraphics[width=\textwidth]{figures/simul/10_500K_s2}
-\caption{classe 2}
+\caption{$S = 10$}
 \label{10_s2}
 \end{subfigure}
 %
-\begin{subfigure}[t]{0.5\textwidth}
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/5_500K_s2}
+\caption{$S = 5$}
+\label{5_s2}
+\end{subfigure}
+%
+\caption{tempo di risposta sistema classe 2}
+\label{plot:s2}
+\end{figure}
+%
+%
+\input{tables/s2.tex}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Tempo di Risposta Sistema}
+Con l'aggiunta dei job di classe 1 nel calcolo del tempo di risposta globale del
+sistema, la situazione non cambia, infatti, come mostrato in 
+figura~\ref{plot:s} e tabella~\ref{tab:s}, si ottiene il minor tempo di risposta
+nel caso in cui $S=20$, e anche in questo caso è evidente l'influenza della
+percentuale di interruzione che induce alla sottostima, anche se con un errore
+massimo più contenuto (al più del $2.7\%$), più precisa invece la stima
+del caso $S=5$ (\epsmx$=0.5\%$).
+\begin{figure}[!h]
+\centering
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/20_500K_s}
+\caption{$S = 20$}
+\label{20_s}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/15_500K_s}
+\caption{$S = 15$}
+\label{15_s}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
 \includegraphics[width=\textwidth]{figures/simul/10_500K_s}
-\caption{globale}
+\caption{$S = 10$}
 \label{10_s}
 \end{subfigure}
 %
-\caption{tempo di risposta medio sistema per $S = 10$}
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/5_500K_s}
+\caption{$S = 5$}
+\label{5_s}
+\end{subfigure}
+%
+\caption{tempo di risposta sistema}
+\label{plot:s}
 \end{figure}
 %
-\input{tables/10_s}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Popolazione: Cloudlet}
 %
-\begin{figure}[!h]
-\centering
-%
-\begin{subfigure}[t]{0.49\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/10_500K_n1clet}
-\caption{classe 1}
-\label{10_n1clet}
-\end{subfigure}
-%
-\begin{subfigure}[t]{0.49\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/10_500K_n2clet}
-\caption{classe 2}
-\label{10_n2clet}
-\end{subfigure}
-%
-\begin{subfigure}[t]{0.5\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/10_500K_nclet}
-\caption{globale}
-\label{10_nclet}
-\end{subfigure}
-%
-\caption{popolazione media cloudlet per $S = 10$}
-\end{figure}
-%
-\input{tables/10_nclet}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Popolazione: Cloud}
-%
-\begin{figure}[!h]
-\centering
-%
-\begin{subfigure}[t]{0.49\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/10_500K_n1cloud}
-\caption{classe 1}
-\label{10_n1cloud}
-\end{subfigure}
-%
-\begin{subfigure}[t]{0.49\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/10_500K_n2cloud}
-\caption{classe 2}
-\label{10_n2cloud}
-\end{subfigure}
-%
-\begin{subfigure}[t]{0.5\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/10_500K_ncloud}
-\caption{globale}
-\label{10_ncloud}
-\end{subfigure}
-%
-\caption{popolazione media cloud per $S = 10$}
-\end{figure}
-%
-\input{tables/10_ncloud}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Popolazione: Sistema}
-%
-\begin{figure}[!h]
-\centering
-%
-\begin{subfigure}[t]{0.49\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/10_500K_n1}
-\caption{classe 1}
-\label{10_n1}
-\end{subfigure}
-%
-\begin{subfigure}[t]{0.49\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/10_500K_n2}
-\caption{classe 2}
-\label{10_n2}
-\end{subfigure}
-%
-\begin{subfigure}[t]{0.5\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/10_500K_n}
-\caption{globale}
-\label{10_n}
-\end{subfigure}
-%
-\caption{popolazione media sistema per $S = 10$}
-\end{figure}
-%
-\input{tables/10_n}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Throughput: Cloudlet}
-%
-\begin{figure}[!h]
-\centering
-%
-\begin{subfigure}[t]{0.49\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/10_500K_x1clet}
-\caption{classe 1}
-\label{10_x1clet}
-\end{subfigure}
-%
-\begin{subfigure}[t]{0.49\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/10_500K_x2clet}
-\caption{classe 2}
-\label{10_x2clet}
-\end{subfigure}
-%
-\begin{subfigure}[t]{0.5\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/10_500K_xclet}
-\caption{globale}
-\label{10_xclet}
-\end{subfigure}
-%
-\caption{throughput cloudlet per $S = 10$}
-\end{figure}
-%
-\input{tables/10_xclet}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Throughput: Cloud}
-%
-\begin{figure}[!h]
-\centering
-%
-\begin{subfigure}[t]{0.49\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/10_500K_x1cloud}
-\caption{classe 1}
-\label{10_x1cloud}
-\end{subfigure}
-%
-\begin{subfigure}[t]{0.49\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/10_500K_x2cloud}
-\caption{classe 2}
-\label{10_x2cloud}
-\end{subfigure}
-%
-\begin{subfigure}[t]{0.5\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/10_500K_xcloud}
-\caption{globale}
-\label{10_xcloud}
-\end{subfigure}
-%
-\caption{throughput cloud per $S = 10$}
-\end{figure}
-%
-\input{tables/10_xcloud}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Throughput: Sistema}
-%
-\begin{figure}[!h]
-\centering
-%
-\begin{subfigure}[t]{0.49\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/10_500K_x1}
-\caption{classe 1}
-\label{10_x1}
-\end{subfigure}
-%
-\begin{subfigure}[t]{0.49\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/10_500K_x2}
-\caption{classe 2}
-\label{10_x2}
-\end{subfigure}
-%
-\begin{subfigure}[t]{0.5\textwidth}
-\includegraphics[width=\textwidth]{figures/simul/10_500K_x}
-\caption{globale}
-\label{10_x}
-\end{subfigure}
-%
-\caption{throughput sistema per $S = 10$}
-\end{figure}
-%
-\input{tables/10_x}
-%
-%
+\input{tables/s.tex}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Scenario 3: $\mathbf{S=\frac{3}{4}N=15}$}
-%
-%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Scenario 4: $\mathbf{S=\frac{N}{4}=5}$}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
