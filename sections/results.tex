@@ -517,6 +517,417 @@ del caso $S=5$ (\epsmx$=0.5\%$).
 \input{tables/s.tex}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Throughput Cloudlet Classe 1}
+La figura~\ref{plot:x1clet} e la tabella~\ref{tab:x1clet} mostrano che il
+throughput del cloudlet relativo ai job di classe 1 è pressoché costante al
+variare del parametro $S$, ciò implica che l'evento in cui un job di classe 1
+non viene accettato nel cloudlet avviente con probabilità remota in ogni caso.
+
+La stima della statistica è affidabile con un errore massimo inferiore
+all'$1\%$.  
+\begin{figure}[!h]
+\centering
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/20_500K_x1clet}
+\caption{$S = 20$}
+\label{20_x1clet}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/15_500K_x1clet}
+\caption{$S = 15$}
+\label{15_x1clet}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/10_500K_x1clet}
+\caption{$S = 10$}
+\label{10_x1clet}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/5_500K_x1clet}
+\caption{$S = 5$}
+\label{5_x1clet}
+\end{subfigure}
+%
+\caption{throughput cloudlet classe 1}
+\label{plot:x1clet}
+\end{figure}
+%
+%
+\input{tables/x1clet.tex}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Throughput Cloudlet Classe 2}
+La figura~\ref{plot:x2clet} e la tabella~\ref{tab:x2clet} mostrano che il
+throughput del cloudlet relativo ai job di classe 2 aumenta al crescere del
+parametro $S$, di conseguenza risulta che diminuisce al crescere della
+probabilità di interruzione che, poiché è sottostimata, viene prodotta un stima
+maggiore dei risultati delle simulazioni.
+
+Quindi anche questa metrica risente dell'errore di approssimazione della
+percentuale di job di classe 2 interrotti, in particolare viene commesso un
+errore (anch'esso proporzionale ad $S$) pari ad al più il $36\%$ nel caso in cui
+$S=5$, che non è di certo trascurabile.
+
+\begin{figure}[!h]
+\centering
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/20_500K_x2clet}
+\caption{$S = 20$}
+\label{20_x2clet}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/15_500K_x2clet}
+\caption{$S = 15$}
+\label{15_x2clet}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/10_500K_x2clet}
+\caption{$S = 10$}
+\label{10_x2clet}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/5_500K_x2clet}
+\caption{$S = 5$}
+\label{5_x2clet}
+\end{subfigure}
+%
+\caption{throughput cloudlet classe 2}
+\label{plot:x2clet}
+\end{figure}
+%
+%
+\input{tables/x2clet.tex}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Throughput Cloudlet}
+La figura~\ref{plot:xclet} e la tabella~\ref{tab:xclet} mostrano che l'errore
+di approssimazione dovuto alla percentuale di job interrotti viene attenuato.
+Tale attenuazione risulta tanto più maggiore quanto lo è la probabilità di
+interruzione, poiché ogni interruzione implica un completamento in più di classe
+1, che andrà ad influire sul calcolo del throughput.
+
+La stima della statistica è affidabile con un errore massimo che va dal $2\%$ al
+$4\%$ nei casi in cui $S=10,15,20$, altrimenti nel caso in cui $S=5$ l'errore
+massimo è inferiore all'$1\%$.
+\begin{figure}[!h]
+\centering
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/20_500K_xclet}
+\caption{$S = 20$}
+\label{20_xclet}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/15_500K_xclet}
+\caption{$S = 15$}
+\label{15_xclet}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/10_500K_xclet}
+\caption{$S = 10$}
+\label{10_xclet}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/5_500K_xclet}
+\caption{$S = 5$}
+\label{5_xclet}
+\end{subfigure}
+%
+\caption{throughput cloudlet}
+\label{plot:xclet}
+\end{figure}
+%
+%
+\input{tables/xclet.tex}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Throughput Sistema}
+Le figure~\ref{plot:x1},~\ref{plot:x2} e~\ref{plot:x} e la
+tabelle~\ref{tab:x1},~\ref{tab:x2} e~\ref{tab:x} mostrano i risultati relativi
+al throughput del sistema sia per classe che globalmente, e viene confermata
+l'ipotesi di stabilità sfruttata nel modello analitico, poiché le stime
+approssimano bene i valori delle simulazioni con un errore massimo inferiore
+all'$1\%$.
+\begin{figure}[!h]
+\centering
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/20_500K_x1}
+\caption{$S = 20$}
+\label{20_x1}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/15_500K_x1}
+\caption{$S = 15$}
+\label{15_x1}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/10_500K_x1}
+\caption{$S = 10$}
+\label{10_x1}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/5_500K_x1}
+\caption{$S = 5$}
+\label{5_x1}
+\end{subfigure}
+%
+\caption{throughput sistema classe 1}
+\label{plot:x1}
+\end{figure}
+%
+%
+\input{tables/x1.tex}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[!h]
+\centering
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/20_500K_x2}
+\caption{$S = 20$}
+\label{20_x2}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/15_500K_x2}
+\caption{$S = 15$}
+\label{15_x2}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/10_500K_x2}
+\caption{$S = 10$}
+\label{10_x2}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/5_500K_x2}
+\caption{$S = 5$}
+\label{5_x2}
+\end{subfigure}
+%
+\caption{throughput sistema classe 2}
+\label{plot:x2}
+\end{figure}
+%
+%
+\input{tables/x2.tex}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[!h]
+\centering
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/20_500K_x}
+\caption{$S = 20$}
+\label{20_x}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/15_500K_x}
+\caption{$S = 15$}
+\label{15_x}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/10_500K_x}
+\caption{$S = 10$}
+\label{10_x}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/5_500K_x}
+\caption{$S = 5$}
+\label{5_x}
+\end{subfigure}
+%
+\caption{throughput sistema}
+\label{plot:x}
+\end{figure}
+%
+%
+\input{tables/x.tex}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Popolazione Cloudlet Classe 1}
+La figura~\ref{plot:n1clet} e la tabella~\ref{tab:n1clet} mostrano che i valori
+della popolazione media per i job di classe nel cloudlet sono pressoché costanti
+al variare del parametro $S$, a causa della bassa probabilità che un job di
+classe 1 venga inviato al server remoto. La stima approssima bene i risultati
+con un errore massimo pari all'$1\%$.
+\begin{figure}[!h]
+\centering
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/20_500K_n1clet}
+\caption{$S = 20$}
+\label{20_n1clet}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/15_500K_n1clet}
+\caption{$S = 15$}
+\label{15_n1clet}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/10_500K_n1clet}
+\caption{$S = 10$}
+\label{10_n1clet}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/5_500K_n1clet}
+\caption{$S = 5$}
+\label{5_n1clet}
+\end{subfigure}
+%
+\caption{popolazione cloudlet classe 1}
+\label{plot:n1clet}
+\end{figure}
+%
+%
+\input{tables/n1clet.tex}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Popolazione Cloudlet Classe 2}
+La figura~\ref{plot:n2clet} e la tabella~\ref{tab:n2clet} mostrano che la
+popolazione media dei job di classe 2 diminuisce al decrescere del parametro
+$S$, ciò è lecito poiché con l'abbassamento del valore di soglia vengono
+accettati sempre meno job di classe 2.
+
+La stima commette un'errore che invece aumenta al decrescere di $S$,
+probabilmente dovuto a inprecisioni della distribuzione stazionaria, che saranno
+anche la causa del valore approssimato della percentuale di interruzione.
+\begin{figure}[!h]
+\centering
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/20_500K_n2clet}
+\caption{$S = 20$}
+\label{20_n2clet}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/15_500K_n2clet}
+\caption{$S = 15$}
+\label{15_n2clet}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/10_500K_n2clet}
+\caption{$S = 10$}
+\label{10_n2clet}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/5_500K_n2clet}
+\caption{$S = 5$}
+\label{5_n2clet}
+\end{subfigure}
+%
+\caption{popolazione cloudlet classe 2}
+\label{plot:n2clet}
+\end{figure}
+%
+%
+\input{tables/n2clet.tex}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Popolazione Cloud Classe 1}
+La figura~\ref{plot:n1cloud} e la tabella~\ref{tab:n1cloud} mostrano la
+popolazione media del cloudlet relativa ai job di classe 1 prossima allo 0, per
+il solito motivo della remota probabilità di blocco.
+
+Il numero di job è talmente basso, che ogni replica della simulazione può
+produrre risultati molto variegati, infatti vengono prodotti intarvalli di
+confidenza ampi e la stima del modello analitico può commettere un errore anche
+del $65\%$.
+\begin{figure}[!h]
+\centering
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/20_500K_n1cloud}
+\caption{$S = 20$}
+\label{20_n1cloud}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/15_500K_n1cloud}
+\caption{$S = 15$}
+\label{15_n1cloud}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/10_500K_n1cloud}
+\caption{$S = 10$}
+\label{10_n1cloud}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/5_500K_n1cloud}
+\caption{$S = 5$}
+\label{5_n1cloud}
+\end{subfigure}
+%
+\caption{popolazione cloud classe 1}
+\label{plot:n1cloud}
+\end{figure}
+%
+%
+\input{tables/n1cloud.tex}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Popolazione Cloud Classe 2}
+La popolazione media del cloud relativa ai job di classe 2 varia in maniera
+opposta alla popolazione media del cloudlet, infatti cresce all'aumentare della
+probabilità di interruzione. 
+
+La figura~\ref{plot:n2cloud} e la tabella~\ref{tab:n2cloud} mostrano i risultati
+delle simulazioni a confronto con le stime del modello analitico e, anche per
+quanto riguarda l'errore massimo, si ha un andamento inverso a quello relativo
+al cloudlet, infatti l'errore massimo aumenta al crescere di $S$. Inoltre, nei
+casi in cui $S=10,15,20$, la stima è leggermente inferiore ai risultati poiché
+il tasso di arrivo al nodo è proporzionale alla percentuale di interruzione,
+pertanto anche in questo caso ci si porta dietro l'errore di approssimazione.
+\begin{figure}[!h]
+\centering
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/20_500K_n2cloud}
+\caption{$S = 20$}
+\label{20_n2cloud}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/15_500K_n2cloud}
+\caption{$S = 15$}
+\label{15_n2cloud}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/10_500K_n2cloud}
+\caption{$S = 10$}
+\label{10_n2cloud}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.49\textwidth}
+\includegraphics[width=\textwidth]{figures/simul/5_500K_n2cloud}
+\caption{$S = 5$}
+\label{5_n2cloud}
+\end{subfigure}
+%
+\caption{popolazione cloud classe 2}
+\label{plot:n2cloud}
+\end{figure}
+%
+%
+\input{tables/n2cloud.tex}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
