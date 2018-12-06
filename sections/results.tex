@@ -482,6 +482,23 @@ nel caso in cui $S=20$, e anche in questo caso è evidente l'influenza della
 percentuale di interruzione che induce alla sottostima, anche se con un errore
 massimo più contenuto (al più del $2.7\%$), più precisa invece la stima
 del caso $S=5$ (\epsmx$=0.5\%$).
+
+In conclusione si è ottenuto che per un valore di $S=20$ si ottiene il
+tempo di risposta minimo, pari a circa $3.61$ secondi, perché, con un alto
+valore di soglia, si minimizzano gli inoltri diretti al cloud e si ha un numero
+di interruzioni contenuto (non più del $24\%$ dei job di classe 2).
+Nel caso in cui $S=15$ l'elevata percentuale di job interrotti ha influito
+nell'ottenere un tempo di risposta maggiore rispetto agli altri casi, mentre per
+un valore di soglia pari a $10$, nonostante il ridotto tempo di risposta dei job
+interrotti e la bassa percentuale di interruzioni, si è ottenuto un tempo
+maggiore dei casi $S=5,20$ per via dell'influenza dei job di classe 2 eseguiti
+nel cloud
+
+Per un valore di soglia $S=5$ si sperimenta un
+elevato numero di inoltri diretti al server remoto ma al tempo stesso una
+quantità minima di job interrotti, pertanto il tempo di risposta non è molto
+lontano dal valore minimo che assume nel caso in cui $S=20$.
+
 \begin{figure}[!h]
 \centering
 %

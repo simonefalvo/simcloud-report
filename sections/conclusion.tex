@@ -1,1 +1,42 @@
 \section{Conclusioni}
+Tramite il confronto dei risultati della simulazione nei diversi scenari è stato
+possibile valutare le performance del sistema e delle sue componenti al variare
+del valore di soglia $S$, e stabilire la bontà del modello analitico mettendone
+in evidenza pregi e difetti.
+
+Da tale confronto, sono emerse le seguenti conclusioni relative al modello
+analitico:
+\begin{itemize}
+\item il modello è particolarmente affidabile nella stime delle metriche
+relative ai job di classe 1, con una percentuale di errore massimo inferiore
+all'$1\%$;
+\item nel calcolo della percentuale dei job interrotti di classe 2, si commette
+un errore significativo che si ripercuote, in maniera più o meno accentuata, sul
+resto delle metriche che coinvolgono le interruzioni dei job, tuttavia tale
+errore si attenua nelle metriche globali ed in quelle relative al sistema,
+consentendo un stima comunque soddisfacente della visione complessiva del
+sistema;
+\item l'affidabilità della stima di una metrica locale, dipende strettamente
+dalla quantità dei job che vengono processati nel nodo di interesse, per esempio
+è stato impossibile ottenere una stima accettabile riguardo ai job di classe 1
+che sono stati eseguiti nel cloud e si è riscontrato un errore massimo non
+trascurabile nel caso di metriche relative a job di classe 2 eseguiti nel
+cloudlet per un valore di soglia pari a 5.
+\end{itemize}
+
+In merito alla simulazione, in particolare alle differenze nel comportamento del
+sistema in relazione al valore del parametro $S$, è emerso che i fattori che
+incidono maggiormente sono legati, come è intuibile, alle interruzioni ed agli
+inoltri diretti al cloud, poiché vi corrispondono i tempi di risposta maggiori.
+
+In conclusione si è ottenuto che per un valore di $S=20$ si ottiene il
+tempo di risposta minimo, pari a circa $3.61$ secondi, tuttavia, in tale caso,
+la stima commette un errore massimo del $2.7\%$. 
+
+Per un valore di soglia $S=5$, il tempo di risposta ($3.65$ secondi) non è molto
+lontano dal valore minimo che assume nel caso in cui $S=20$, però la stima è
+molto più affidabile (tranne che per le metriche relative ai job di classe 2 nel
+cloudlet), infatti si commette sempre un errore massimo inferiore all'$1\%$.
+Pertanto se si ha l'esigenza di avere un sistema altamente predicibile, con tale
+modello analitico, risulterebbe vantaggioso configurare il sistema con un valore
+di soglia pari a 5.
