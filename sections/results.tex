@@ -5,13 +5,13 @@ risultati della simulazione con le stime dedotte dall'analisi, valutando quattro
 possibili scenari contraddistinti dal valore che assume il parametro $S$.
 
 Ognuno di questi scenari è stato simulato facendo processare al programma lo
-stesso numero di job affinché le statistiche globali del sistema possano
+stesso numero di job affinché le statistiche globali del sistema potessero 
 essere confrontate. Tale numero è stato stabilito in base alle metriche che
 andavano valutate ed al numero di job che le riguardava.
 
 Lo scenario con valore di soglia $S=5$, è quello in cui soltanto circa il $2\%$
 dei job di classe 2 è processato nel cloudlet e di questi circa il $90\%$
-vengono interrotti, ne risulta, quindi che in relazione al numero totale dei job
+vengono interrotti, ne risulta quindi che, in relazione al numero totale dei job
 che transitano nel sistema, solamente lo $0.14\%$ sono job di classe 2
 processati con successo nel cloudlet e l'$1.37\%$ sono job interrotti. In
 definitiva, al fine di avere una dimensione dei batch soddisfacente per il
@@ -29,19 +29,19 @@ quindi simulati tutti con un numero totale di job pari a $500000$, e a seconda
 del numero di job che verranno processati nei vari nodi e della loro tipologia,
 sono risultati intervalli di confidenza più o meno precisi.
 
-Purtroppo è risultato impossibile determinare risultati attendibili per i job
+Purtroppo è stato impossibile determinare risultati attendibili per i job
 di classe 1 che vengono processati nel cloud, poiché il loro numero è, per ogni
-scenario, talmente esiguo, che per avere un batch di dimensione 10 sarebbero
+scenario, talmente esiguo che per avere un batch di dimensione 10 sarebbero
 necessari almeno 3 milioni di job in tutto. Tuttavia, con un numero di
 $500000$ job totali, si ottengono delle statistiche globali molto attendibili,
-infatti, ad esempio per il tempo medio di risposta del sistema, si ottiene 
+ ad esempio per il tempo medio di risposta del sistema, si ottiene 
 una dimensione del batch pari a $\lfloor\frac{500000}{64}\rfloor = 7812$.
 
 Per ogni statistica vengono presentati grafici e tabelle, in cui vengono
 confrontati i risulatati osservati in 10 repliche della simulazione con la
 relativa stima del modello analitico, inoltre nelle tabelle viene anche indicato
-l'errore massimo che è stato commesso, corrispondente al massimo delle distanze 
-tra la stima e l'estremo più lontano di ogni intervallo di confidenza.
+l'errore massimo \epsmx che è stato commesso, corrispondente al massimo delle
+distanze tra la stima e l'estremo più lontano di ogni intervallo di confidenza.
 %
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -68,8 +68,7 @@ hanno valori troppo discordanti, differiscono infatti di circa un punto
 percentuale.
 
 I valori delle simulazioni e gli errori relativi rispetto alla stima del modello
-analitico sono riportati nelle
-tabella~\ref{tab:intperc}.
+analitico sono riportati nelle tabella~\ref{tab:intperc}.
 %
 \begin{figure}[!h]
 \centering
@@ -109,8 +108,8 @@ tabella~\ref{tab:intperc}.
 Il tempo di risposta per un job di classe 1 che viene eseguito nel cloudlet è
 indipendente dal parametro S ed i risultati presentati in
 figura~\ref{plot:s1clet} e nella tabella~\ref{tab:s1clet} mostrano che tutti gli
-intervalli di confidenza calcolati comprendono il valore stimato ed il valore
-dell'errore massimo è sotto la soglia dell'$1\%$ in ogni caso.
+intervalli di confidenza calcolati comprendono il valore stimato e in tutti casi
+l'errore massimo è sotto la soglia dell'$1\%$.
 \begin{figure}[!h]
 \centering
 %
@@ -156,10 +155,11 @@ tempo di risposta laddove $S$ è minore.
 La stima effettuata, nei casi in cui $S=20,15,10$, è affidabile con un errore
 massimo del $5\%$, mentre, nel caso in cui $S=5$, gli intervalli di confidenza
 hanno un ampiezza eccessiva con un errore anche del $104\%$, quest'ultimo fatto
-è dovuto al basso valore del parametro di soglia e all'elevato tasso di
-interruzione per i job accettati nel nodo, risulta così un ridotto numero di job
-di classe 2 che vengono processati nel cloudlet, e di conseguenza una dimensione
-dei batch troppo piccola per ottenere intervalli precisi.
+è dovuto al basso valore del parametro di soglia che impedisce l'accesso ai job
+di classe 2 e all'elevato tasso di interruzione per i pochi che vengono
+accettati nel nodo, risulta così un ridotto numero di job di classe 2 che
+vengono processati nel cloudlet, e di conseguenza una dimensione dei batch
+troppo piccola per ottenere intervalli precisi.
 \begin{figure}[!h]
 \centering
 %
@@ -215,7 +215,7 @@ caso in cui fossero eseguiti soltanto job di classe 1.
 Le stime effettuate si avvicinano ai valori delle simulazioni con un errore che
 va dallo $0.7\%$ del caso in cui $S=10$ all' $1.7\%$ del caso in cui $S=5$.
 Degno di nota è il fatto che, in quest'ultimo caso, l'errore sulla stima della
-statistica di classe 2 precedente, non abbia inciso particolarmente, sempre
+statistica di classe 2 precedente non ha inciso particolarmente, sempre
 per via dell'esiguo numero di job processati della suddetta classe.
 \begin{figure}[!h]
 \centering
@@ -428,7 +428,7 @@ al peso che esercitano i job interrotti nel calcolo, infatti si ritrova la
 stessa sottostima per quanto riguarda le percentuali di job interrotti
 mostrate all'inizio, ma con un errore massimo minore (al più del $3.5\%$).
 Inoltre nel caso in cui $S=5$, si ha una stima precisa con un errore massimo
-dello $0.7\%$, perché vi sono un bassissimo numero di interruzioni.
+dello $0.7\%$ perché vi sono un bassissimo numero di interruzioni.
 
 Può essere interessante notare che si ottiene il minor tempo di risposta nello
 scenario per cui $S=20$, nel quale si sperimenta il massimo tempo di risposta
@@ -480,13 +480,14 @@ sistema, la situazione non cambia, infatti, come mostrato in
 figura~\ref{plot:s} e tabella~\ref{tab:s}, si ottiene il minor tempo di risposta
 nel caso in cui $S=20$, e anche in questo caso è evidente l'influenza della
 percentuale di interruzione che induce alla sottostima, anche se con un errore
-massimo più contenuto (al più del $2.7\%$), più precisa invece la stima
+massimo più contenuto (al più del $2.7\%$), più precisa è invece la stima
 del caso $S=5$ (\epsmx$=0.5\%$).
 
 In conclusione si è ottenuto che per un valore di $S=20$ si ottiene il
-tempo di risposta minimo, pari a circa $3.61$ secondi, perché, con un alto
+tempo di risposta minimo pari a circa $3.61$ secondi, perché, con un alto
 valore di soglia, si minimizzano gli inoltri diretti al cloud e si ha un numero
 di interruzioni contenuto (non più del $24\%$ dei job di classe 2).
+
 Nel caso in cui $S=15$ l'elevata percentuale di job interrotti ha influito
 nell'ottenere un tempo di risposta maggiore rispetto agli altri casi, mentre per
 un valore di soglia pari a $10$, nonostante il ridotto tempo di risposta dei job
@@ -580,8 +581,8 @@ all'$1\%$.
 La figura~\ref{plot:x2clet} e la tabella~\ref{tab:x2clet} mostrano che il
 throughput del cloudlet relativo ai job di classe 2 aumenta al crescere del
 parametro $S$, di conseguenza risulta che diminuisce al crescere della
-probabilità di interruzione che, poiché è sottostimata, viene prodotta un stima
-maggiore dei risultati delle simulazioni.
+probabilità di interruzione che, poiché è sottostimata, induce una sovrastima
+dei risultati delle simulazioni.
 
 Quindi anche questa metrica risente dell'errore di approssimazione della
 percentuale di job di classe 2 interrotti, in particolare viene commesso un
@@ -629,8 +630,9 @@ Tale attenuazione risulta tanto più maggiore quanto lo è la probabilità di
 interruzione, poiché ogni interruzione implica un completamento in più di classe
 1, che andrà ad influire sul calcolo del throughput.
 
-La stima della statistica è affidabile con un errore massimo che va dal $2\%$ al
-$4\%$ nei casi in cui $S=10,15,20$, altrimenti nel caso in cui $S=5$ l'errore
+L'andamento è sempre proporzionale ad $S$ e la stima della statistica è
+affidabile con un errore massimo che va dal $2\%$ al $4\%$ nei casi in cui
+$S=10,15,20$, altrimenti nel caso in cui $S=5$ l'errore
 massimo è inferiore all'$1\%$.
 \begin{figure}[!h]
 \centering
@@ -669,10 +671,13 @@ massimo è inferiore all'$1\%$.
 \subsection{Throughput Sistema}
 Le figure~\ref{plot:x1},~\ref{plot:x2} e~\ref{plot:x} e la
 tabelle~\ref{tab:x1},~\ref{tab:x2} e~\ref{tab:x} mostrano i risultati relativi
-al throughput del sistema sia per classe che globalmente, e viene confermata
-l'ipotesi di stabilità sfruttata nel modello analitico, poiché le stime
-approssimano bene i valori delle simulazioni con un errore massimo inferiore
-all'$1\%$.
+al throughput del sistema sia per classe che globalmente in cui viene confermata
+l'ipotesi di stabilità sfruttata nel modello analitico, infatti risulta che i
+valori del throughput sono indipendenti dal parametro $S$ ed equivalgono ai
+relativi tassi di ingresso. 
+
+Le stime approssimano bene i valori delle simulazioni con un errore massimo
+inferiore all'$1\%$.
 \begin{figure}[!h]
 \centering
 %

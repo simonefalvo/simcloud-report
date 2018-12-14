@@ -3,18 +3,18 @@ Nel modello concettuale il sistema viene descritto come un sistema di code
 connesse tra loro (figura~\ref{conceptual}), di quest'ultimo si distinguono i
 seguenti componenti:
 \begin{itemize}
-\item[\textbf{Cloudlet}]: nodo del sistema che comprende un numero $N$ di server
+\item[\textbf{Cloudlet}:] nodo del sistema che comprende un numero $N$ di server
 senza coda che operano in parallelo con tassi di servizio specifici per classi
 di job.
-\item[\textbf{Cloud}]: nodo del sistema che comprende un numero infinito di
+\item[\textbf{Cloud}:] nodo del sistema che comprende un numero infinito di
 server senza coda che operano in parallelo con tassi di servizio specifici per
 classi di job.
-\item[\textbf{Centro di setup}]: nodo del sistema che modella la fase di setup
+\item[\textbf{Centro di setup}:] nodo del sistema che modella la fase di setup
 di un job interrotto, composto da un numero infinito di server senza coda che
 operano in parallelo con un tasso di servizio pari a $1/E[S_{setup}]$. Un job
 interrotto transita per questo centro prima di prendere servizio nel cloud ed il
 tempo ivi trascorso corrisponde al tempo necessario alla ri-esecuzione del job.
-\item[\textbf{Controllore}]: componente che implementa la logica di routing in
+\item[\textbf{Controllore}:] componente che implementa la logica di routing in
 base all’occupazione del cloudlet tenendo conto del parametro di soglia $S$, non
 costituisce un centro di servizio in quanto la sua funzione è limitata
 all'inoltro dei job.

@@ -1,0 +1,45 @@
+\documentclass{beamer}
+\usepackage{verbatim}
+\usepackage{adjustbox}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{subcaption}
+\usepackage{listings}
+
+\lstset{
+	language=C,
+	frame=single,
+	basicstyle=\tiny,
+    showstringspaces=false,
+	tabsize=1,
+	inputencoding=utf8,
+	literate={==}{= =}{3}
+}
+
+\title{
+  Performance Modeling Of Computer Systems And Networks\\[20pt]
+  Relazione Progetto 2017/18
+}
+\author{
+  Simone Falvo\\
+  \texttt{smvfal@gmail.com}
+}
+
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{frame}
+\frametitle{Scaletta}
+\tableofcontents
+\end{frame}
+
+\input{sections/conceptual.tex}
+\input{sections/specification.tex}
+\input{sections/computational.tex}
+\input{sections/analytical.tex}
+\input{sections/results.tex}
+\input{sections/throughput.tex}
+
+\end{document}

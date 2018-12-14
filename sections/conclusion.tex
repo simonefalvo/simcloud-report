@@ -35,8 +35,17 @@ la stima commette un errore massimo del $2.7\%$.
 
 Per un valore di soglia $S=5$, il tempo di risposta ($3.65$ secondi) non è molto
 lontano dal valore minimo che assume nel caso in cui $S=20$, però la stima è
-molto più affidabile (tranne che per le metriche relative ai job di classe 2 nel
-cloudlet), infatti si commette sempre un errore massimo inferiore all'$1\%$.
-Pertanto se si ha l'esigenza di avere un sistema altamente predicibile, con tale
-modello analitico, risulterebbe vantaggioso configurare il sistema con un valore
-di soglia pari a 5.
+molto più affidabile, infatti si commette sempre un errore massimo inferiore
+all'$1\%$.  Pertanto, se si ha l'esigenza di avere un sistema altamente
+predicibile, con tale modello analitico risulterebbe vantaggioso configurare il
+sistema con un valore di soglia pari a 5.
+
+Qualora si volesse replicare gli esperimenti effettuati, il codice della
+simulazione è disponibile al seguente indirizzo:
+\url{https://github.com/smvfal/simcloud}. Ogni simulazione è stata eseguita con
+un seme iniziale pari a $12345$, su una macchina con sistema operativo
+GNU/Linux.
+Per eseguire l'esperimento è necessario eseguire prima il programma
+\emph{cloudq} che produce i file con i valori osservati e li salva nella
+cartella \emph{data}, infine eseguire i programmi con il prefisso \emph{bm\_}
+per il calcolo degli intervalli di confidenza.

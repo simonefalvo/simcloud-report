@@ -1,0 +1,280 @@
+\section{Modello di Specifica}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Modello di Specifica: Variabili dello stato}
+\begin{table}[!h]
+\begin{tabular}{c|l}
+{$n_1^{clet}(t)$}  & numero di job di classe 1 nel cloudlet al tempo $t$\\
+{$n_2^{clet}(t)$}  & numero di job di classe 2 nel cloudlet al tempo $t$\\
+{$n_1^{cloud}(t)$} & numero di job di classe 1 nel cloud al tempo $t$\\
+{$n_2^{cloud}(t)$} & numero di job di classe 2 nel cloud al tempo $t$\\
+{$n_{setup}(t)$}   & numero di job in fase di setup al tempo $t$\\
+\end{tabular}
+\centering
+\label{state}
+\end{table}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Modello di Specifica: Variabili}
+\begin{table}[!h]
+\begin{adjustbox}{width=\textwidth}
+\begin{tabular}{c|l}
+{$s_{1,i}^{clet}$}     & tempo di servizio dell’i-esimo job di classe 1 eseguito
+nel cloudlet \\[2pt]
+{$s_{2,i}^{clet}$}     & tempo di servizio dell’i-esimo job di classe 2 eseguito
+nel cloudlet \\[2pt]
+{$s_{1,i}^{cloud}$}    & tempo di servizio dell’i-esimo job di classe 1 eseguito
+nel cloud \\[2pt]
+{$s_2^{cloud,i}$}      & tempo di servizio dell’i-esimo job di classe 2 eseguito
+nel cloud \\[2pt]
+{$s_{intr,i}^{clet}$}  & tempo di servizio nel cloudlet dell’i-esimo job
+interrotto \\[2pt]
+{$s_{intr,i}^{cloud}$} & tempo di servizio nel cloud dell’i-esimo job interrotto
+\\[2pt]
+{$s_i^{setup}$}        & tempo di setup dell’i-esimo job interrotto \\[2pt]
+{$c_1^{clet}(t)$}      & numero di job di classe 1 completati nel cloudlet al
+tempo $t$ \\[2pt]
+{$c_2^{clet}(t)$}      & numero di job di classe 2 completati nel cloudlet al
+tempo $t$ \\[2pt] 
+{$c_1^{cloud}(t)$}     & numero di job di classe 1 completati nel cloud al tempo
+$t$ \\[2pt] 
+{$c_2^{cloud}(t)$}     & numero di job di classe 2 completati nel cloud al tempo
+$t$ \\[2pt]
+{$n_{intr}(t)$}        & numero di job interrotti al tempo $t$ \\
+\end{tabular}
+\end{adjustbox}
+\centering
+\label{vars}
+\end{table}
+%
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Modello di Specifica: Tempi di risposta}
+\setlength\arraycolsep{2pt}
+\begin{displaymath}
+\begin{array}{rclr}
+s_j^{clet} &=& 
+\displaystyle \sum_{i=1}^{c_j^{clet}(t_{stop})} s_{j,i}^{clet} 
+& j = 1, 2 \\[30pt]
+s_j^{cloud} &=& \displaystyle \sum_{i=1}^{c_j^{cloud}(t_{stop})} s_{j,i}^{cloud}
+& j = 1, 2 \\[30pt]
+s_{intr} &=& \sum_{i=1}^{n_{intr}(t_{stop})} (s_{intr,i}^{clet} +
+s_{intr,i}^{cloud} + s_i^{setup}) &
+\end{array}
+\end{displaymath}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Modello di Specifica: Tempi di risposta}
+\setlength\arraycolsep{2pt}
+\begin{eqnarray*}
+\label{eq:sjclet}
+E[T_j^{clet}] = E[S_j^{clet}] &=& \frac{s_j^{clet}}{c_j^{clet}(t_{stop})}
+\ \qquad \ \qquad \ j = 1, 2 
+\\[30pt]
+\label{eq:sjcloud}
+E[T_j^{cloud}] = E[S_j^{cloud}] &=&
+\frac{s_j^{cloud}}{c_j^{cloud}(t_{stop})}
+\qquad \ \qquad j = 1, 2 
+\\[30pt]
+\label{eq:sintr}
+E[T_{intr}] = E[S_{intr}] & = &
+\frac{s_{intr}}{n_{intr}(t_{stop})}
+\end{eqnarray*}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Modello di Specifica: Tempi di risposta}
+\setlength\arraycolsep{2pt}
+\begin{eqnarray*}
+\label{eq:s1}
+E[T_1] = E[S_1] & = &
+\frac{s_1^{clet} + s_1^{cloud}}{c_1^{clet}(t_{stop}) + c_1^{cloud}(t_{stop})}
+\\[30pt]
+\label{eq:s2}
+E[T_2] = E[S_2] & = &
+\frac{s_1^{clet} + s_1^{cloud} + s_{intr}}{c_2^{clet}(t_{stop}) +
+c_2^{cloud}(t_{stop})} \\[30pt]
+\label{eq:s}
+E[T] = E[S] & = &
+\frac{s_1^{clet} + s_1^{cloud} + s_2^{clet} + s_2^{cloud} + s_{intr}}
+{c_1^{clet}(t_{stop}) + c_1^{cloud}(t_{stop}) + c_2^{clet}(t_{stop}) +
+c_2^{cloud}(t_{stop})} 
+\end{eqnarray*}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Modello di Specifica: Popolazione media}
+
+\setlength\arraycolsep{2pt}
+\begin{eqnarray*}
+\label{eq:njclet}
+E[N_j^{clet}] & = &
+\frac{1}{t_{stop} - t_{start}} 
+\displaystyle \int_{t_{start}}^{t_{stop}} n_j^{clet}(t) \ dt
+\qquad j = 1, 2 
+\\[30pt]
+\label{eq:njcloud}
+E[N_j^{cloud}] & = &
+\frac{1}{t_{stop} - t_{start}} 
+\displaystyle \int_{t_{start}}^{t_{stop}} n_j^{cloud}(t) \ dt
+\qquad j = 1, 2 
+\\[30pt]
+\label{eq:nsetup}
+E[N_{setup}] & = &
+\frac{1}{t_{stop} - t_{start}} 
+\displaystyle \int_{t_{start}}^{t_{stop}} n_{setup}(t) \ dt
+\end{eqnarray*}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Modello di Specifica: Popolazione media}
+\setlength\arraycolsep{2pt}
+\begin{eqnarray*}
+\label{eq:n1}
+E[N_{1}] & = & E[N_1^{clet}] + E[N_1^{cloud}]
+\\[20pt]
+\label{eq:n2}
+E[N_{2}] & = & E[N_2^{clet}] + E[N_2^{cloud}] + E[N_{setup}]
+\\[20pt]
+\label{eq:nclet}
+E[N_{clet}] & = & E[N_1^{clet}] + E[N_2^{clet}]
+\\[20pt]
+\label{eq:ncloud}
+E[N_{cloud}] & = & E[N_1^{cloud}] + E[N_2^{cloud}]
+\\[20pt]
+\label{eq:n}
+E[N] & = & E[N_{cloud}] + E[N_{clet}] + E[N_{setup}] 
+\\   & = & E[N_{1}] + E[N_{2}]
+\end{eqnarray*}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Modello di Specifica: Throughput}
+\setlength\arraycolsep{2pt}
+\begin{eqnarray*}
+\label{eq:xjclet}
+X_j^{clet} & = & \frac{c_j^{clet}(t_{stop})}{t_{stop} - t_{start}} 
+\qquad j = 1, 2 
+\\[10pt]
+\label{eq:xjcloud}
+X_j^{cloud} & = & \frac{c_j^{cloud}(t_{stop})}{t_{stop} - t_{start}} 
+\qquad j = 1, 2 
+\\[10pt]
+\label{eq:xj}
+X_j & = & X_j^{clet} + X_j^{cloud}
+\qquad j = 1, 2 
+\\[10pt]
+\label{eq:xclet}
+X_{clet} & = & X_1^{clet} + X_2^{clet}
+\\[10pt]
+\label{eq:xcloud}
+X_{cloud} & = & X_1^{cloud} + X_2^{cloud}
+\\[10pt]
+\label{eq:x}
+X & = & X_1 + X_2 = X_{clet} + X_{cloud}
+\end{eqnarray*}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Modello di specifica: Interruzioni}
+\setlength\arraycolsep{2pt}
+\begin{eqnarray*}
+P_{intr} &=& 
+\frac{n_{intr}(t_{stop})}{c_2^{clet}(t_{stop}) + c_2^{cloud}(t_{stop})} \\[30pt]
+P_{intr}^{clet} &=& 
+\frac{n_{intr}(t_{stop})}{n_{intr}(t_{stop}) + c_2^{clet}(t_{stop})}
+\end{eqnarray*}
+%
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Modello di Specifica: Eventi}
+\begin{center}
+\scalebox{0.65}{
+\begin{minipage}{0.7\linewidth}
+\begin{algorithm}[H]
+\begin{algorithmic}
+\STATE \textbf{Arrivo di un job $i$ di classe 1}:
+\IF{$n_1^{clet}(t) = N$}
+    \STATE \emph{esecuzione su cloud}
+    \STATE $s_1^{cloud} \leftarrow s_1^{cloud} + s_{1,i}^{cloud}$
+    \STATE $n_1^{cloud}(t') \leftarrow n_1^{cloud}(t) + 1$
+\ELSIF{$n_1^{clet}(t) + n_2^{clet}(t) < S$}
+    \STATE \emph{esecuzione su cloudlet}
+    \STATE $s_1^{clet} \leftarrow s_1^{clet} + s_{1,i}^{clet}$
+    \STATE $n_1^{clet}(t') \leftarrow n_1^{clet}(t) + 1$
+\ELSIF{$n_2^{clet}(t) > 0$}
+    \STATE \emph{interruzione e setup job $k$ di classe 2}
+    \STATE \emph{esecuzione su cloudlet job $i$ di classe 1}
+    \STATE $s_1^{clet} \leftarrow s_1^{clet} + s_{1,i}^{clet}$
+    \STATE $s_2^{clet} \leftarrow s_2^{clet} - s_2^{clet,k}$
+    \STATE $s_{intr} \leftarrow s_{intr} + s_{intr,k}$
+    \STATE $s_{setup} \leftarrow s_{setup} + s_{setup,k}$
+    \STATE $n_{setup}(t') \leftarrow n_{setup}(t) + 1$
+    \STATE $n_1^{clet}(t') \leftarrow n_1^{clet}(t) + 1$
+    \STATE $n_2^{clet}(t') \leftarrow n_2^{clet}(t) - 1$
+\ELSE
+    \STATE \emph{esecuzione su cloudlet}
+    \STATE $s_1^{clet} \leftarrow s_1^{clet} + s_{1,i}^{clet}$
+    \STATE $n_1^{clet}(t') \leftarrow n_1^{clet}(t) + 1$
+\ENDIF
+\end{algorithmic}
+\end{algorithm}
+\end{minipage}%
+}
+\end{center}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Modello di Specifica: Eventi}
+\begin{center}
+\scalebox{0.65}{
+\begin{minipage}{0.7\linewidth}
+\begin{algorithm}[H]
+\begin{algorithmic}
+\STATE \textbf{Arrivo di un job $i$ di classe 2}:
+\IF{$n_1^{clet}(t) + n_2^{clet}(t) \geq S$}
+    \STATE \emph{esecuzione su cloud}
+    \STATE $s_2^{cloud} \leftarrow s_2^{cloud} + s_2^{cloud,i}$
+    \STATE $n_2^{cloud}(t') \leftarrow n_2^{cloud}(t) + 1$
+\ELSE
+    \STATE \emph{esecuzione su cloudlet}
+    \STATE $s_2^{clet} \leftarrow s_2^{clet} + s_{2,i}^{clet}$
+    \STATE $n_2^{clet}(t') \leftarrow n_2^{clet}(t) + 1$
+\ENDIF
+
+\STATE \textbf{Partenza di un job di classe $j$ dal cloudlet}:
+\STATE $c_j^{clet}(t') \leftarrow c_j^{clet}(t) + 1$
+\STATE $n_j^{clet}(t') \leftarrow n_j^{clet}(t) - 1$
+
+\STATE \textbf{Partenza di un job di classe $j$ dal cloud}:
+\STATE $c_j^{cloud}(t') \leftarrow c_j^{cloud}(t) + 1$
+\STATE $n_j^{cloud}(t') \leftarrow n_j^{cloud}(t) - 1$
+
+\STATE \textbf{Setup}:
+\STATE \emph{esecuzione su cloud}
+\STATE $s_2^{cloud} \leftarrow s_2^{cloud} + s_2^{cloud,i}$
+\STATE $n_{setup}(t') \leftarrow n_{setup}(t) - 1$
+\STATE $n_2^{cloud}(t') \leftarrow n_2^{cloud}(t) + 1$
+\end{algorithmic}
+\end{algorithm}
+\end{minipage}%
+}
+\end{center}
+\end{frame}
+%
+%

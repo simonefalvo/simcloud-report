@@ -4,7 +4,7 @@ next-event che impiega il metodo ``batch means'' per il calcolo di tutte le
 metriche di interesse. 
 A questo livello di astrazione del sistema si passa ad implementare tutto ciò
 che è stato definito formalmente nel modello di specifica, in particolare in
-questa sezione verranno descritte le strutture dati impiegate per la
+questa sezione sono descritte le strutture dati impiegate per la
 rappresentazione delle variabili, le funzioni ed i costrutti che realizzano la
 logica del sistema, come vengono generati i dati di input ed infine le
 metodologie con cui vengono collezionati ed elaborati i dati di output.
@@ -19,8 +19,7 @@ principale entità manipolata nel sistema: il job.
 \subsubsection{Eventi e clock virtuale}
 Ad ogni istante la lista di eventi è così composta:
 \begin{itemize}
-\item[-]prossimo arrivo job di classe 1
-\item[-]prossimo arrivo job di classe 2
+\item[-]prossimo arrivo di un job
 \item[-]al più $N$ completamenti di job nel cloudlet
 \item[-]$0$ o più completamenti di job nel cloud
 \item[-]$0$ o più completamenti di fase di setup dei job interrotti
@@ -60,7 +59,6 @@ struct event {
     double time;
     struct job_t job;
     unsigned int type;
-    unsigned int n[4];
 };
 
 typedef struct {           /* simulation clock                  */
@@ -75,7 +73,7 @@ typedef struct {           /* simulation clock                  */
 I dati che man mano devono essere raccolti durante la simulazione sono
 memorizzati in variabili suddivise in base alla tipologia e al nodo di
 esecuzione dei job. Per esempio, lo stato del sistema, così come il numero di
-arrivi e completamenti, è implementato tramite un array di dimensione 4, di cui
+arrivi e completamenti, è implementato tramite un array di dimensione 5, di cui
 ogni slot corrisponde ad una combinazione classe-nodo a cui il job può essere
 associato. 
 
@@ -111,21 +109,19 @@ J\_CLASS2 & 1    & 3     & 4     \\
 Un generico task, anche detto job, viene implementato come una struttura
 specifica dotata dei seguenti attributi: 
 \begin{itemize}
-\item[id]: identificatore univoco necessario ad effettuare un riordino dei job
+\item[id:] identificatore univoco necessario ad effettuare un riordino dei job
 nel momento in cui vanno considerate le statistiche in un ordine corrispondente
 agli istanti di arrivo dei singoli job
-\item[class]: specifica la classe del job, può assumere il valori J\_CLASS1 e
+\item[class:] specifica la classe del job, può assumere il valori J\_CLASS1 e
 J\_CLASS2 (macro definite nel file di configurazione); 
-\item[node]: specifica il nodo in cui il job è in esecuzione, può assumere i
+\item[node:] specifica il nodo in cui il job è in esecuzione, può assumere i
 valori CLET, CLOUD, SETUP (macro definite nel file di configurazione), che
 corrispondono rispettivamente a cloudlet, cloud e nodo di setup; 
-\item[service]: array che memorizza i tempi di risposta seguendo la stessa regola
-delle combinazioni che riguarda anche lo stato del sistema. Un job di classe 1
-in esecuzione nel cloud avrà un tempo di risposta non nullo nello slot relativo,
-un job interrotto avrà un tempo di risposta non nullo sia nello slot riguardante
-il nodo cloudlet che in quello riguardante il nodo cloud. 
-\item[setup]: tempo che un job trascorre in fase di setup. Il valore rimane
-nullo nel caso in cui il job non viene interrotto.  
+\item[service:] array che memorizza i tempi di risposta seguendo la stessa
+regola delle combinazioni che riguarda anche lo stato del sistema. Un job di
+classe 1 in esecuzione nel cloud avrà un tempo di risposta non nullo nello slot
+relativo, un job interrotto avrà tempi di risposta non nulli negli slot
+riguardanti il nodo cloudlet, il nodo di setup ed il nodo cloud. 
 %
 \end{itemize}
 \begin{figure}[!h]
@@ -134,8 +130,7 @@ struct job_t {
     unsigned long id;
     unsigned int class;
     unsigned int node;
-    double service[4];
-    double setup;
+    double service[5];
 };
 \end{lstlisting}
 \end{figure}
@@ -161,17 +156,14 @@ generazione di un tempo di servizio esponenziale con media stabilita in base ai
 parametri $j$ e $n$ passati come argomento che indicano rispettivamente la
 classe ed il nodo di esecuzione del job.
 
-La funzione \emph{GetSetup()} restituisce semplicemente un valore generato a
-partire da una distribuzione esponenziale di media $E[S_{setup}]$.
-
-Le funzioni in questione sono elencate di seguito. Si noti che prima di ogni
-chiamata alle funzioni della libreria \emph{rvgs} viene selezionato, tramite la
-funzione \emph{SelectStream()}, un flusso di generazione di numeri
-pseudo-casuali distinto, affinché sia garantita il più possibile l’indipendenza
-tra le sequenze di numeri generate.  
+Le funzioni in questione sono mostrate in figura~\ref{code:dgen}. Si noti che
+prima di ogni chiamata alle funzioni della libreria \emph{rvgs} viene
+selezionato, tramite la funzione \emph{SelectStream()}, un flusso di generazione
+di numeri pseudo-casuali distinto, affinché sia garantita il più possibile
+l’indipendenza tra le sequenze di numeri generate.  
 %
 \begin{figure}[!h]
-\begin{lstlisting}[title=basic.h]
+\begin{lstlisting}[title=dgen.c]
 double GetArrival(unsigned int *j)
 {
     const double mean[2] = {1/L1, 1/L2};
@@ -208,32 +200,33 @@ double GetService(int j, int n)
     return Exponential(mean[j + n]);      
 }                                       
 \end{lstlisting}
+\caption{Generatori tempi di arrivo e servizio}
+\label{code:dgen}
 \end{figure}
 %
 %
 \subsection{Flusso principale}
 Il programma che si occupa dell’esecuzione della simulazione è contenuto nel
 file \emph{cloudq.c}. Il flusso di esecuzione principale consiste nell’eseguire
-le varie replicazioni della simulazione producendo, per ognuna di esse, dei file
+le varie repliche della simulazione producendo, per ognuna di esse, dei file
 di output che vengono presi in input da altri programmi che si occupano di
 elaborare i dati, tali programmi sono denominati \emph{bm\_*.c} e producono, per
-ogni replicazione e per ogni metrica, un campione di $k$ medie di batch di
-dimensione $b$ sul quale viene calcolato un intervallo di confidenza del $95\%$.
-\\Ogni replicazione della simulazione è composta dalle seguenti fasi:
+ogni replica e per ogni metrica, un campione di $K=64$ medie di batch di
+dimensione $b$ pari al rapporto tra numero di job e K, sul quale viene calcolato
+un intervallo di confidenza del $95\%$.
+\\Ogni replica della simulazione è composta dalle seguenti fasi:
 %
 \begin{enumerate}
-\item Inizializzazione: apertura dei file di output, reset delle variabili (e
-del clock virtuale?), settaggio del seme per il PRNG, generazione ed inserimento
-nella coda del primo evento di arrivo.
-
+\item Inizializzazione: apertura dei file di output, reset delle variabili,
+settaggio del seme per il PRNG, generazione ed inserimento nella coda del primo
+evento di arrivo.
 \item Processamento degli eventi: fintanto che la coda degli eventi non è vuota,
 viene aggiornata l’area relativa alla popolazione nel tempo di simulazione
 corrente, viene estratto l’evento in cima alla coda ed a seconda del tipo di
-evento si attuano le azioni descritte nell’algoritmo~\ref{alg};
-
+evento si attuano le azioni descritte nell’algoritmo~\ref{alg}, questo processo
+viene mostrato in figura~\ref{code:events};
 \item Terminazione: chiusura dei file di output e stampa su schermo dei
-risultati della replicazione.
-
+risultati della replica.
 \end{enumerate}
 %
 \begin{figure}[!h]
@@ -256,7 +249,7 @@ while (queue.head != NULL) {
         /* process an arrival */
         /* ..... */
     case E_SETUP:
-        /* process an arrival */
+        /* process an setup phase */
         /* ..... */
     case E_DEPART: 
         /* process a departure */
@@ -270,16 +263,18 @@ while (queue.head != NULL) {
 
 /* ..... */
 \end{lstlisting}
+\caption{elaborazione degli eventi}
+\label{code:events}
 \end{figure}
 %
 \subsubsection{Gestione degli eventi}
 A livello computazionale, le operazioni che corrispondono ai vari eventi
 (indicati con le macro specificate nel file basic.h) sono le seguenti:
 \begin{itemize}
-\item[E\_ARRIVL]: evento di arrivo, a seconda della classe del job e dello stato
-del sistema, vengono aggiornate le variabili degli arrivi e quelle della
-popolazione corrente, tramite la funzione \emph{srvjob()} viene creato e
-inserito nella coda un evento di partenza dal nodo in cui il job va
+\item[E\_ARRIVL:] evento di arrivo, a seconda della classe del job e dello stato
+del sistema, vengono aggiornate le corrispondenti variabili degli arrivi e
+quelle della popolazione corrente, tramite la funzione \emph{srvjob()} viene
+creato e inserito nella coda un evento di partenza dal nodo in cui il job va
 concettualmente in esecuzione, per un tempo di servizio che viene generato
 tramite la funzione \emph{GetService()} e memorizzato nell’apposita variabile
 del job. Se si verificano le condizioni per cui avviene l’interruzione di un
@@ -289,26 +284,22 @@ evento di setup a cui viene associato il nodo rimosso con un nuovo tempo di
 servizio generato dalla funzione \emph{GetService()}, infine viene creato ed
 immesso nella coda un evento di partenza dal cloudlet con associato il nuovo job
 appena arrivato.\\
-Una volta che un evento di arrivo viene processato, viene generato il successivo
-ed inserito nella coda. Si può osservare che, ad ogni istante, nella coda è
+Una volta che un evento di arrivo viene processato, si genera il successivo e lo
+si inserisce nella coda. Si può osservare che, ad ogni istante, nella coda è
 presente un solo evento di arrivo, poiché un evento di tale tipo viene generato
 soltanto dopo che il precedente viene processato.
-
-\item[E\_DEPART]: evento di partenza, vengono aggiornate le variabili relative
+\item[E\_DEPART:] evento di partenza, vengono aggiornate le variabili relative
 alla popolazione del sistema ed ai completamenti in base alla classe del job e
 al nodo di servizio, inoltre vengono scritti i dati correnti sui file di output,
-quindi, una metrica di interesse, viene registrata ad ogni completamento di un
+quindi, una metrica di interesse viene registrata ad ogni completamento di un
 job, anche quelle non relative ai singoli job come la popolazione media.
-
-\item[E\_SETUP]: evento di setup, indica la terminazione della fase di setup di
+\item[E\_SETUP:] evento di setup, indica la terminazione della fase di setup di
 un job interrotto, viene generato un nuovo evento di partenza dal cloud e viene
 aggiornato lo stato della popolazione del sistema.
-
-\item[E\_IGNRVL]:
 \end{itemize}
-
-[CODICE RELATIVO AI VARI EVENTI]
-
+La figura~\ref{code:srvhdlr} mostra il codice relativo alle funzioni
+\emph{srvjob()} e \emph{rplcjob()}.
+%
 %
 \begin{figure}[!h]
 \begin{lstlisting}[title=cloudq.c]
@@ -363,28 +354,30 @@ double rplcjob(struct queue_t *queue, clock t, unsigned int n)
     return service - left;
 }
 \end{lstlisting}
+\caption{Funzioni per la gestione dell'esecuzione dei job}
+\label{code:srvhdlr}
 \end{figure}
 %
 %
 \subsection{Produzione ed Elaborazione dell'Output}
 La simulazione viene eseguita un numero $R$ di volte in modo da ottenere un
 campione di tale dimensione con cui generare un intervallo di confidenza al 95\%
-per le statistiche ottenute.  Le replicazioni della simulazione sono gestite con
+per le statistiche ottenute.  Le repliche della simulazione sono gestite con
 un ciclo for all’inizio del quale vengono re-inizializzate tutte le variabili e
 viene reimpostato il seme per il PRNG affinché le distribuzioni generate in ogni
-replicazione siano indipendenti. In ogni replicazione i valori delle variabili
+replica siano indipendenti. In ogni replica i valori delle variabili
 vengono scritti in modo iterativo su dei file di output che vengono poi
 elaborati tramite un successivo programma (\emph{bm\_*.c}) per il calcolo delle
 metriche di interesse.
 \subsubsection{Tempo di Servizio} 
-Il file \emph{service.dat} contiene le informazioni riguardanti i tempi di
-servizio di ogni job in base alla sua classe ed al nodo su cui è stato eseguito:
-ogni riga corrisponde ad un singolo job tranne la prima in cui sono presenti i
-completamenti sempre suddivisi per combinazione classe-nodo, necessari al
-calcolo della grandezza dei batch. Infatti se durante la simulazione sono stati
-processati $c_1$ job di classe 1 ed $c_2$ job di classe 2, la dimensione dei
-relativi batch sarà rispettivamente $c_1/K$ e $c_2/K$, con $K$ pari al numero di
-batch del campione.
+Il file prodotto \emph{service.dat} contiene le informazioni riguardanti i tempi
+di servizio di ogni job in base alla sua classe ed al nodo su cui è stato
+eseguito: ogni riga corrisponde ad un singolo job tranne la prima in cui sono
+presenti i completamenti sempre suddivisi per combinazione classe-nodo,
+necessari al calcolo della grandezza dei batch. Infatti se durante la
+simulazione sono stati processati $c_1$ job di classe 1 ed $c_2$ job di classe
+2, la dimensione dei relativi batch sarà rispettivamente $c_1/K$ e $c_2/K$, con
+$K$ pari al numero di batch del campione.
 
 Poiché i tempi di servizio vengono scritti ad ogni completamento dei job, quindi
 in un ordine che non corrisponde a quello di arrivo, è necessario riordinare le
@@ -392,10 +385,6 @@ righe del file, questo viene fatto tramite la chiamata di sistema
 \emph{system()}, che permette di eseguire il comando shell per il riordino delle
 righe, a tale scopo viene inserito l’id del job (assegnato in ordine di arrivo)
 all’inizio di ogni riga.
-
-[CODICE SCRITTURA SU FILE E RIORDINO]
-
-[FIGURA FILE DI OUTPUT]
 
 Il programma \emph{bm\_srv} si occupa dell’elaborazione di questo file, leggendo
 riga per riga e riempiendo le apposite variabili, distinguendo la tipologia del
@@ -409,8 +398,6 @@ per $b$ per calcolare il valor medio.
 In questo modo l’array costituisce un campione di dimensione $K$ per la metrica,
 per il quale il programma calcola un intervallo di confidenza con un livello di
 significatività pari a $\alpha = 0.05$.
-
-[CODICE bm\_srv.c]
 %
 \subsubsection{Throughput, popolazione, e percentuale di interruzioni}
 I file \emph{throughput.dat}, \emph{population.dat} e \emph{interruption.dat}
@@ -429,11 +416,3 @@ scrivendo su ogni riga i valori corrispondenti alla combinazione classe-nodo.
 L’elaborazione differisce invece perché ogni riga contribuisce al popolamento
 degli array, quindi ognuno di questi avrà i batch della stessa dimensione pari
 al rapporto tra il numero di righe N\_JOBS e la dimensione del campione $K$.
-
-[CODICE ED ESEMPIO DI OUTPUT]
-
-[CODICE bm\_thr.c]
-%
-
-%
-%
